@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS transactions (
+    id SERIAL PRIMARY KEY,
+    external_id TEXT NOT NULL UNIQUE
+)

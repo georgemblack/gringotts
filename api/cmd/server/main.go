@@ -1,7 +1,9 @@
 package main
 
-import "github.com/georgemblack/gringotts/api/pkg/service"
+import (
+	"github.com/georgemblack/gringotts/api/pkg/handlers"
+)
 
 func main() {
-	service.Run()
+	handlers.Run()
 }
