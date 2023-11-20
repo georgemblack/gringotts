@@ -1,20 +1,13 @@
 package handlers
 
 import (
-	"net/http"
-
+	"github.com/georgemblack/gringotts/api/pkg/application"
 	"github.com/gin-gonic/gin"
 )
 
 // Run starts the server with all routes
-func Run() {
-	
+func Run(config application.Config) {
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-
+	r.POST("/transactions/import", importTransactions(config))
 	r.Run()
 }
