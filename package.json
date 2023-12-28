@@ -1,0 +1,32 @@
+{
+  "name": "gringotts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/georgemblack/gringotts",
+  "author": "George Black <contact@george.black>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "format": "prettier --write ./src",
+    "format-check": "prettier ./src",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "date-fns": "^3.0.1",
+    "dexie": "^3.2.4",
+    "dexie-react-hooks": "^1.1.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/react": "^18.2.45",
+    "parcel": "^2.10.3",
+    "prettier": "^2.8.7",
+    "prettier-plugin-tailwindcss": "^0.2.5",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.3"
+  }
+}
