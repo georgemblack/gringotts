@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/georgemblack/gringotts/api/pkg/types"
+	"github.com/georgemblack/gringotts/api/pkg/models"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -37,8 +37,8 @@ func LoadConfig() (Config, error) {
 	}
 	conf.DB = db
 
-	// Migrate the schema
-	db.AutoMigrate(&types.Transaction{})
+	// Migrate DB schema
+	db.AutoMigrate(&models.Transaction{}, &models.Merchant{}, &models.MerchantCategory{}, &models.Category{})
 
 	return conf, nil
 }
