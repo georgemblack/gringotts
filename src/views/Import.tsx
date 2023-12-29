@@ -1,11 +1,24 @@
 import { parse } from "papaparse";
 import { useState } from "react";
 
+import {
+  c1CreditRecordsToTransactions,
+  validTransaction,
+} from "../lib/Process";
+import { saveTransactions } from "../lib/Repository";
+import { Account, C1CreditRecord } from "../lib/Types";
+
 function Import() {
   const [csv, setCsv] = useState<string>("");
 
   const handleSubmit = () => {
-    const result = parse(csv, { header: true });
+    const result = parse<C1CreditRecord>(csv, { header: true });
+    const transactions = c1CreditRecordsToTransactions(
+      result.data,
+      Account.CAPITAL_ONE_QUICKSILVER
+    );
+    const filtered = transactions.filter(validTransaction);
+    saveTransactions(filtered);
   };
 
   return (
