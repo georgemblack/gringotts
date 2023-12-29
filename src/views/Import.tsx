@@ -1,10 +1,11 @@
+import { parse } from "papaparse";
 import { useState } from "react";
 
 function Import() {
   const [csv, setCsv] = useState<string>("");
 
   const handleSubmit = () => {
-    console.log(csv);
+    const result = parse(csv, { header: true });
   };
 
   return (
