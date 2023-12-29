@@ -26,17 +26,17 @@ export function c1CreditRecordToTransaction(
   const credit = record.Debit !== "" ? Bool.FALSE : Bool.TRUE;
 
   return {
-    Key: generateRecordId(record),
-    Date: record["Transaction Date"],
-    Description: "",
-    Merchant: record.Description,
-    MerchantCategory: "",
-    Category: "",
-    Amount: amount,
-    Credit: credit,
-    Account: account,
-    Notes: "",
-    Skipped: Bool.FALSE,
+    key: generateRecordId(record),
+    date: record["Transaction Date"],
+    description: "",
+    merchant: record.Description,
+    merchantCategory: "",
+    category: "",
+    amount: amount,
+    credit: credit,
+    account: account,
+    notes: "",
+    skipped: Bool.FALSE,
   };
 }
 
@@ -48,5 +48,5 @@ export function c1CreditRecordsToTransactions(
 }
 
 export function validTransaction(transaction: Transaction): boolean {
-  return transaction.Amount !== "" && transaction.Merchant !== "";
+  return transaction.amount !== "" && transaction.merchant !== "";
 }

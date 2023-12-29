@@ -11,17 +11,17 @@ export enum Account {
 
 export interface Transaction {
   id?: number;
-  Key: string;
-  Date: string;
-  Description: string;
-  Merchant: string;
-  MerchantCategory: string;
-  Category: string;
-  Amount: string;
-  Credit: Bool.FALSE | Bool.TRUE;
-  Account: Account;
-  Notes: string;
-  Skipped: Bool.FALSE | Bool.TRUE;
+  key: string;
+  date: string;
+  description: string;
+  merchant: string;
+  merchantCategory: string;
+  category: string;
+  amount: string;
+  credit: Bool.FALSE | Bool.TRUE;
+  account: Account;
+  notes: string;
+  skipped: Bool.FALSE | Bool.TRUE;
 }
 
 export interface C1CreditRecord {
