@@ -2,7 +2,14 @@ import { useState } from "react";
 import * as React from "react";
 
 import { updateTransaction } from "../lib/Repository";
-import { AccountNames, Bool, Transaction } from "../lib/Types";
+import {
+  AccountNames,
+  Bool,
+  Category,
+  CategoryNames,
+  Transaction,
+} from "../lib/Types";
+import Autosuggest from "./Autosuggest";
 
 function ReviewForm({ transaction }: { transaction: Transaction }) {
   const [merchant, setMerchant] = useState(transaction.merchant);
@@ -52,25 +59,27 @@ function ReviewForm({ transaction }: { transaction: Transaction }) {
           </div>
           <form className="mt-4" onSubmit={handleSubmit}>
             <div className="flex gap-2">
-              <input
-                className="input"
-                placeholder="Merchant"
+              <Autosuggest
                 value={merchant}
-                onChange={(e) => setMerchant(e.target.value)}
+                suggestions={["one", "two", "three", "four", "apple", "banana"]}
+                placeholder="Merchant"
+                onChange={setMerchant}
               />
-              <input
-                className="input"
-                placeholder="Merchant Category"
+              <Autosuggest
                 value={merchantCategory}
-                onChange={(e) => setMerchantCategory(e.target.value)}
+                suggestions={["one", "two", "three", "four", "apple", "banana"]}
+                placeholder="Merchant Category"
+                onChange={setMerchantCategory}
               />
             </div>
-            <div className="mt-2 flex gap-2">
-              <input
-                className="input"
-                placeholder="Category"
+            <div className="mt-4 flex gap-2">
+              <Autosuggest
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                suggestions={Object.keys(Category).map(
+                  (key) => CategoryNames[key as Category]
+                )}
+                placeholder="Category"
+                onChange={setCategory}
               />
               <input
                 className="input"

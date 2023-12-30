@@ -23,6 +23,58 @@ export const AccountNames = {
   [Account.VENMO]: "Venmo",
 };
 
+export enum Category {
+  COMPENSATION = "COMPENSATION",
+  BANKING_REWARDS = "BANKING_REWARDS",
+  INCOME_MISC = "INCOME_MISC",
+  HEALTH = "HEALTH",
+  HOUSING = "HOUSING",
+  EDUCATION = "EDUCATION",
+  GROCERIES = "GROCERIES",
+  SUPPLIES = "SUPPLIES",
+  PETS = "PETS",
+  TRANSPORTATION = "TRANSPORTATION",
+  ESSENTIAL_SERVICES = "ESSENTIAL_SERVICES",
+  UTILITIES = "UTILITIES",
+  AUTO_LOANS_MINIMUM = "AUTO_LOANS_MINIMUM",
+  INSURANCE = "INSURANCE",
+  ESSENTIAL_MISC = "ESSENTIAL_MISC",
+  DINING_ENTERTAINMENT = "DINING_ENTERTAINMENT",
+  SHOPPING = "SHOPPING",
+  TRAVEL_TRIPS = "TRAVEL_TRIPS",
+  SUBSCRIPTIONS = "SUBSCRIPTIONS",
+  ELECTIVE_SERVICES = "ELECTIVE_SERVICES",
+  CHARITY = "CHARITY",
+  GIFTS = "GIFTS",
+  ELECTIVE_HIDDEN = "ELECTIVE_HIDDEN",
+}
+
+export const CategoryNames = {
+  [Category.COMPENSATION]: "Compensation",
+  [Category.BANKING_REWARDS]: "Banking Rewards",
+  [Category.INCOME_MISC]: "Income Misc",
+  [Category.HEALTH]: "Health",
+  [Category.HOUSING]: "Housing",
+  [Category.EDUCATION]: "Education",
+  [Category.GROCERIES]: "Groceries",
+  [Category.SUPPLIES]: "Supplies",
+  [Category.PETS]: "Pet",
+  [Category.TRANSPORTATION]: "Transportation",
+  [Category.ESSENTIAL_SERVICES]: "Essential Services",
+  [Category.UTILITIES]: "Utilities",
+  [Category.AUTO_LOANS_MINIMUM]: "Auto Loans Minimum",
+  [Category.INSURANCE]: "Insurance",
+  [Category.ESSENTIAL_MISC]: "Essential Misc",
+  [Category.DINING_ENTERTAINMENT]: "Dining & Entertainment",
+  [Category.SHOPPING]: "Shopping",
+  [Category.TRAVEL_TRIPS]: "Travel & Trips",
+  [Category.SUBSCRIPTIONS]: "Subscriptions",
+  [Category.ELECTIVE_SERVICES]: "Elective Services",
+  [Category.CHARITY]: "Charity",
+  [Category.GIFTS]: "Gifts",
+  [Category.ELECTIVE_HIDDEN]: "Cashidy",
+};
+
 export interface Transaction {
   id?: number;
   key: string;
