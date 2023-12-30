@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-  max-width: 54em;
+  max-width: 60em;
   margin: 1em auto;
   padding: 0 1em;
   font-family: system-ui;
