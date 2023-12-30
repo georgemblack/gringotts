@@ -49,5 +49,5 @@ export function c1CreditRecordsToTransactions(
 }
 
 export function validTransaction(transaction: Transaction): boolean {
-  return transaction.amount !== "";
+  return transaction.amount !== "" || transaction.amount === undefined;
 }
