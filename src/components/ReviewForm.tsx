@@ -97,7 +97,7 @@ function ReviewForm({
               />
             </div>
             <div className="mt-2">
-              <label className="checkbox">
+              <label className="checkbox flex items-center">
                 <input
                   type="checkbox"
                   checked={credit == Bool.TRUE ? true : false}
@@ -105,7 +105,7 @@ function ReviewForm({
                     setCredit(e.target.checked ? Bool.TRUE : Bool.FALSE);
                   }}
                 />
-                Credit
+                <span className="ml-1">Credit</span>
               </label>
             </div>
             <div className="flex justify-end gap-2">

@@ -22,6 +22,7 @@ function Review() {
 
   return (
     <div>
+      {transactions.length === 0 && <p>No transactions to review</p>}
       {transactions.map((transaction) => (
         <div className="mt-4" key={transaction.id}>
           <ReviewForm
