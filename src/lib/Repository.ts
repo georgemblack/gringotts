@@ -3,6 +3,32 @@ import Dexie from "dexie";
 import { db } from "./DB";
 import { Transaction } from "./Types";
 
+export async function getMerchants(): Promise<string[]> {
+  try {
+    const result = await db.transactions
+      .where("merchant")
+      .notEqual("")
+      .uniqueKeys();
+    const merchants = result.map((key) => String(key));
+    return merchants || [];
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function getMerchantCategories(): Promise<string[]> {
+  try {
+    const result = await db.transactions
+      .where("merchantCategory")
+      .notEqual("")
+      .uniqueKeys();
+    const categories = result.map((key) => String(key));
+    return categories || [];
+  } catch (error) {
+    return [];
+  }
+}
+
 export async function saveTransactions(
   transactions: Transaction[]
 ): Promise<string> {

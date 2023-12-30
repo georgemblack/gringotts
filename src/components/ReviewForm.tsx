@@ -11,7 +11,15 @@ import {
 } from "../lib/Types";
 import Autosuggest from "./Autosuggest";
 
-function ReviewForm({ transaction }: { transaction: Transaction }) {
+function ReviewForm({
+  transaction,
+  merchants,
+  merchantCategories,
+}: {
+  transaction: Transaction;
+  merchants: string[];
+  merchantCategories: string[];
+}) {
   const [merchant, setMerchant] = useState(transaction.merchant);
   const [merchantCategory, setMerchantCategory] = useState(
     transaction.merchantCategory
@@ -61,13 +69,13 @@ function ReviewForm({ transaction }: { transaction: Transaction }) {
             <div className="flex gap-2">
               <Autosuggest
                 value={merchant}
-                suggestions={["one", "two", "three", "four", "apple", "banana"]}
+                suggestions={merchants}
                 placeholder="Merchant"
                 onChange={setMerchant}
               />
               <Autosuggest
                 value={merchantCategory}
-                suggestions={["one", "two", "three", "four", "apple", "banana"]}
+                suggestions={merchantCategories}
                 placeholder="Merchant Category"
                 onChange={setMerchantCategory}
               />
