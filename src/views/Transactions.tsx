@@ -3,7 +3,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../lib/DB";
 
 function Transactions() {
-  const transactions = useLiveQuery(() => db.transactions.toArray());
+  const transactions = useLiveQuery(() => db.transactions.toArray()) || [];
 
   return (
     <div>
@@ -17,7 +17,7 @@ function Transactions() {
           </tr>
         </thead>
         <tbody>
-          {transactions?.map((transaction) => (
+          {transactions.map((transaction) => (
             <tr>
               <td>{transaction.date}</td>
               <td>{transaction.merchant}</td>

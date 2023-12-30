@@ -1,7 +1,22 @@
+import { useLiveQuery } from "dexie-react-hooks";
+
+import ReviewForm from "../components/ReviewForm";
+import { db } from "../lib/DB";
+import { Bool } from "../lib/Types";
+
 function Review() {
+  const transactions =
+    useLiveQuery(() =>
+      db.transactions.where({ reviewed: Bool.FALSE }).toArray()
+    ) || [];
+
   return (
     <div>
-      <h1>Review</h1>
+      {transactions.map((transaction) => (
+        <div className="mt-2" key={transaction.id}>
+          <ReviewForm transaction={transaction} />
+        </div>
+      ))}
     </div>
   );
 }

@@ -8,7 +8,7 @@ export class DB extends Dexie {
   constructor() {
     super("gringotts");
     this.version(1).stores({
-      transactions: "++id, &key, skipped",
+      transactions: "++id, &key, skipped, reviewed",
     });
   }
 }
