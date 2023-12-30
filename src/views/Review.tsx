@@ -13,7 +13,7 @@ function Review() {
   return (
     <div>
       {transactions.map((transaction) => (
-        <div className="mt-2" key={transaction.id}>
+        <div className="mt-4" key={transaction.id}>
           <ReviewForm transaction={transaction} />
         </div>
       ))}
