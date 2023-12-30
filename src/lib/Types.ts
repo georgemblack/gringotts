@@ -43,6 +43,7 @@ export enum Category {
   SHOPPING = "SHOPPING",
   TRAVEL_TRIPS = "TRAVEL_TRIPS",
   SUBSCRIPTIONS = "SUBSCRIPTIONS",
+  HOBBIES = "HOBBIES",
   ELECTIVE_SERVICES = "ELECTIVE_SERVICES",
   CHARITY = "CHARITY",
   GIFTS = "GIFTS",
@@ -58,7 +59,7 @@ export const CategoryNames = {
   [Category.EDUCATION]: "Education",
   [Category.GROCERIES]: "Groceries",
   [Category.SUPPLIES]: "Supplies",
-  [Category.PETS]: "Pet",
+  [Category.PETS]: "Pets",
   [Category.TRANSPORTATION]: "Transportation",
   [Category.ESSENTIAL_SERVICES]: "Essential Services",
   [Category.UTILITIES]: "Utilities",
@@ -69,6 +70,7 @@ export const CategoryNames = {
   [Category.SHOPPING]: "Shopping",
   [Category.TRAVEL_TRIPS]: "Travel & Trips",
   [Category.SUBSCRIPTIONS]: "Subscriptions",
+  [Category.HOBBIES]: "Hobbies",
   [Category.ELECTIVE_SERVICES]: "Elective Services",
   [Category.CHARITY]: "Charity",
   [Category.GIFTS]: "Gifts",
@@ -107,4 +109,15 @@ export interface C1CreditRecord {
   Description: string;
   "Posted Date": string;
   "Transaction Date": string;
+}
+
+export interface AppleCardCreditRecord {
+  "Transaction Date": string;
+  "Clearing Date": string;
+  Description: string;
+  Merchant: string;
+  Category: string;
+  Type: string;
+  "Amount (USD)": string;
+  "Purchased By": string;
 }

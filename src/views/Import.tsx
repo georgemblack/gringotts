@@ -2,11 +2,18 @@ import { parse } from "papaparse";
 import { useState } from "react";
 
 import {
+  appleCardCreditRecordsToTransactions,
   c1CreditRecordsToTransactions,
   validTransaction,
 } from "../lib/Process";
 import { saveTransactions } from "../lib/Repository";
-import { Account, AccountNames, C1CreditRecord } from "../lib/Types";
+import {
+  Account,
+  AccountNames,
+  AppleCardCreditRecord,
+  C1CreditRecord,
+  Transaction,
+} from "../lib/Types";
 
 function Import() {
   const [csv, setCsv] = useState<string>("");
@@ -16,11 +23,30 @@ function Import() {
   // TODO: Handule duplicate transactions by adding values together
   // TODO: Handle all record types
   const handleSubmit = async () => {
-    const result = parse<C1CreditRecord>(csv, { header: true });
-    const transactions = c1CreditRecordsToTransactions(
-      result.data,
-      account as Account
-    );
+    let transactions: Transaction[] = [];
+
+    // Parse Capital One credit card CSV
+    if (
+      [Account.CAPITAL_ONE_SAVOR, Account.CAPITAL_ONE_QUICKSILVER].includes(
+        account as Account
+      )
+    ) {
+      const result = parse<C1CreditRecord>(csv, { header: true });
+      transactions = c1CreditRecordsToTransactions(
+        result.data,
+        account as Account
+      );
+    }
+
+    // Parse Apple Card credit card CSV
+    if (account === Account.APPLE_CARD) {
+      const result = parse<AppleCardCreditRecord>(csv, { header: true });
+      transactions = appleCardCreditRecordsToTransactions(
+        result.data,
+        account as Account
+      );
+    }
+
     const filtered = transactions.filter(validTransaction);
     const message = await saveTransactions(filtered);
     setStatusMessage(message);

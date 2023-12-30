@@ -58,7 +58,14 @@ function ReviewForm({
       <div className="card-content">
         <div className="content">
           <div className="flex justify-between font-mono">
-            <p className="m-0">{transaction.date}</p>
+            {(() => {
+              const split = transaction.date.split("-");
+              return (
+                <p className="m-0">
+                  {split[1]}/{split[2]}/{split[0]}
+                </p>
+              );
+            })()}
             <p className="m-0">${transaction.amount}</p>
           </div>
           <div className="text-gray-400">
