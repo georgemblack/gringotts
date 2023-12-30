@@ -67,7 +67,7 @@ function ReviewForm({
           </div>
           <form className="mt-4" onSubmit={handleSubmit}>
             <div className="flex gap-2">
-              <div className="grow">
+              <div className="flex-1">
                 <Autosuggest
                   value={merchant}
                   suggestions={merchants}
@@ -75,7 +75,7 @@ function ReviewForm({
                   onChange={setMerchant}
                 />
               </div>
-              <div className="grow">
+              <div className="flex-1">
                 <Autosuggest
                   value={merchantCategory}
                   suggestions={merchantCategories}
@@ -85,7 +85,7 @@ function ReviewForm({
               </div>
             </div>
             <div className="mt-4 flex gap-2">
-              <div className="grow w-full">
+              <div className="flex-1">
                 <Autosuggest
                   value={category}
                   suggestions={Object.keys(Category).map(
@@ -95,7 +95,7 @@ function ReviewForm({
                   onChange={setCategory}
                 />
               </div>
-              <div className="grow w-full">
+              <div className="flex-1">
                 <input
                   className="input"
                   placeholder="Notes"
