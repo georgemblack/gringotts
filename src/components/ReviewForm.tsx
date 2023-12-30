@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as React from "react";
 
 import { updateTransaction } from "../lib/Repository";
-import { Bool, Transaction } from "../lib/Types";
+import { AccountNames, Bool, Transaction } from "../lib/Types";
 
 function ReviewForm({ transaction }: { transaction: Transaction }) {
   const [merchant, setMerchant] = useState(transaction.merchant);
@@ -47,7 +47,7 @@ function ReviewForm({ transaction }: { transaction: Transaction }) {
           </div>
           <div className="text-gray-400">
             <p className="m-0">
-              {transaction.description}, {transaction.account}
+              {transaction.description}, {AccountNames[transaction.account]}
             </p>
           </div>
           <form className="mt-4" onSubmit={handleSubmit}>

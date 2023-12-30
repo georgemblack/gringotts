@@ -20,6 +20,7 @@ export const AccountNames = {
   [Account.APPLE_CARD]: "Apple Card",
   [Account.APPLE_SAVINGS]: "Apple Savings",
   [Account.CASH_APP]: "Cash App",
+  [Account.VENMO]: "Venmo",
 };
 
 export interface Transaction {
