@@ -1,9 +1,15 @@
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { db } from "../lib/DB";
+import { Bool } from "../lib/Types";
 
 function Transactions() {
-  const transactions = useLiveQuery(() => db.transactions.toArray()) || [];
+  const transactions =
+    useLiveQuery(() =>
+      db.transactions
+        .where({ reviewed: Bool.TRUE, skipped: Bool.FALSE })
+        .toArray()
+    ) || [];
 
   return (
     <div>
