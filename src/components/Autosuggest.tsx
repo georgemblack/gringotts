@@ -15,7 +15,7 @@ function Autosuggest({
   const consolidated = filtered.slice(0, 3);
 
   return (
-    <div className="w-full">
+    <div>
       <input
         className="input"
         placeholder={placeholder}

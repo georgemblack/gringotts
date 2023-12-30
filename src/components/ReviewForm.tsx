@@ -67,34 +67,42 @@ function ReviewForm({
           </div>
           <form className="mt-4" onSubmit={handleSubmit}>
             <div className="flex gap-2">
-              <Autosuggest
-                value={merchant}
-                suggestions={merchants}
-                placeholder="Merchant"
-                onChange={setMerchant}
-              />
-              <Autosuggest
-                value={merchantCategory}
-                suggestions={merchantCategories}
-                placeholder="Merchant Category"
-                onChange={setMerchantCategory}
-              />
+              <div className="grow">
+                <Autosuggest
+                  value={merchant}
+                  suggestions={merchants}
+                  placeholder="Merchant"
+                  onChange={setMerchant}
+                />
+              </div>
+              <div className="grow">
+                <Autosuggest
+                  value={merchantCategory}
+                  suggestions={merchantCategories}
+                  placeholder="Merchant Category"
+                  onChange={setMerchantCategory}
+                />
+              </div>
             </div>
             <div className="mt-4 flex gap-2">
-              <Autosuggest
-                value={category}
-                suggestions={Object.keys(Category).map(
-                  (key) => CategoryNames[key as Category]
-                )}
-                placeholder="Category"
-                onChange={setCategory}
-              />
-              <input
-                className="input"
-                placeholder="Notes"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-              />
+              <div className="grow w-full">
+                <Autosuggest
+                  value={category}
+                  suggestions={Object.keys(Category).map(
+                    (key) => CategoryNames[key as Category]
+                  )}
+                  placeholder="Category"
+                  onChange={setCategory}
+                />
+              </div>
+              <div className="grow w-full">
+                <input
+                  className="input"
+                  placeholder="Notes"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                />
+              </div>
             </div>
             <div className="mt-2">
               <label className="checkbox flex items-center">
