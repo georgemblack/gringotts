@@ -19,6 +19,9 @@ function ReviewForm({ transaction }: { transaction: Transaction }) {
             <p>{transaction.date}</p>
             <p>${transaction.amount}</p>
           </div>
+          <div>
+            <p>{transaction.description}</p>
+          </div>
           <form>
             <div className="flex gap-2">
               <input
@@ -34,15 +37,13 @@ function ReviewForm({ transaction }: { transaction: Transaction }) {
                 onChange={(e) => setMerchantCategory(e.target.value)}
               />
             </div>
-            <div className="mt-2">
+            <div className="mt-2 flex gap-2">
               <input
                 className="input"
                 placeholder="Category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               />
-            </div>
-            <div className="mt-2">
               <input
                 className="input"
                 placeholder="Notes"

@@ -28,8 +28,8 @@ export function c1CreditRecordToTransaction(
   return {
     key: generateRecordId(record),
     date: record["Transaction Date"],
-    description: "",
-    merchant: record.Description,
+    description: record.Description,
+    merchant: "",
     merchantCategory: "",
     category: "",
     amount: amount,
@@ -49,5 +49,5 @@ export function c1CreditRecordsToTransactions(
 }
 
 export function validTransaction(transaction: Transaction): boolean {
-  return transaction.amount !== "" && transaction.merchant !== "";
+  return transaction.amount !== "";
 }
