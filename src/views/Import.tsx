@@ -13,6 +13,8 @@ function Import() {
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [account, setAccount] = useState<string>(Account.CAPITAL_ONE_SAVOR);
 
+  // TODO: Handule duplicate transactions by adding values together
+  // TODO: Handle all record types
   const handleSubmit = async () => {
     const result = parse<C1CreditRecord>(csv, { header: true });
     const transactions = c1CreditRecordsToTransactions(

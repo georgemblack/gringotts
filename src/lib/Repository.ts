@@ -36,6 +36,7 @@ export async function saveTransactions(
     await db.transactions.bulkAdd(transactions);
   } catch (error) {
     if (error instanceof Dexie.BulkError) {
+      console.log(error);
       return `${
         transactions.length - error.failures.length
       } transactions saved, ${error.failures.length} skipped`;

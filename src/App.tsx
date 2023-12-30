@@ -1,5 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
+import Add from "./views/Add";
 import Import from "./views/Import";
 import Review from "./views/Review";
 import Transactions from "./views/Transactions";
@@ -9,12 +10,14 @@ function App() {
     <BrowserRouter>
       <nav className="flex gap-4">
         <Link to="/">Import</Link>
+        <Link to="/add">Add</Link>
         <Link to="/review">Review</Link>
         <Link to="/transactions">Transactions</Link>
       </nav>
       <div className="mt-4">
         <Routes>
           <Route path="/" element={<Import />} />
+          <Route path="/add" element={<Add />} />
           <Route path="/review" element={<Review />} />
           <Route path="/transactions" element={<Transactions />} />
         </Routes>

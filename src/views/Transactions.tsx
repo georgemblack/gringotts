@@ -7,7 +7,7 @@ function Transactions() {
 
   return (
     <div>
-      <table className="table">
+      <table className="table w-full">
         <thead>
           <tr>
             <th>Date</th>
