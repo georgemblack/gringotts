@@ -7,6 +7,7 @@ import {
   Bool,
   Category,
   CategoryNames,
+  MerchantCategoryMap,
   Transaction,
 } from "../lib/Types";
 import Autosuggest from "./Autosuggest";
@@ -73,7 +74,13 @@ function ReviewForm({
                   suggestions={merchants}
                   placeholder="Merchant"
                   onChange={(merchant) => {
-                    // TODO: See if we can match & set merchant category
+                    if (Object.keys(MerchantCategoryMap).includes(merchant)) {
+                      setMerchantCategory(
+                        MerchantCategoryMap[
+                          merchant as keyof typeof MerchantCategoryMap
+                        ]
+                      );
+                    }
                     setMerchant(merchant);
                   }}
                 />

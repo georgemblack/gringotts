@@ -75,6 +75,14 @@ export const CategoryNames = {
   [Category.ELECTIVE_HIDDEN]: "Cashidy",
 };
 
+export const MerchantCategoryMap = {
+  Amazon: "Online Retailer",
+  Backblaze: "Cloud Provider",
+  Cloudflare: "Cloud Provider",
+  "Capital One": "Bank",
+  Chase: "Bank",
+};
+
 export interface Transaction {
   id?: number;
   key: string;
