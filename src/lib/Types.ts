@@ -9,6 +9,12 @@ export enum Account {
   CAPITAL_ONE_CHECKING = "CAPITAL_ONE_CHECKING",
 }
 
+export const AccountNames = {
+  [Account.CAPITAL_ONE_SAVOR]: "Capital One Savor",
+  [Account.CAPITAL_ONE_QUICKSILVER]: "Capital One Quicksilver",
+  [Account.CAPITAL_ONE_CHECKING]: "Capital One Checking",
+};
+
 export interface Transaction {
   id?: number;
   key: string;

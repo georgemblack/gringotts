@@ -6,19 +6,22 @@ import {
   validTransaction,
 } from "../lib/Process";
 import { saveTransactions } from "../lib/Repository";
-import { Account, C1CreditRecord } from "../lib/Types";
+import { Account, AccountNames, C1CreditRecord } from "../lib/Types";
 
 function Import() {
   const [csv, setCsv] = useState<string>("");
+  const [statusMessage, setStatusMessage] = useState<string>("");
+  const [account, setAccount] = useState<string>(Account.CAPITAL_ONE_SAVOR);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const result = parse<C1CreditRecord>(csv, { header: true });
     const transactions = c1CreditRecordsToTransactions(
       result.data,
-      Account.CAPITAL_ONE_QUICKSILVER
+      account as Account
     );
     const filtered = transactions.filter(validTransaction);
-    saveTransactions(filtered);
+    const message = await saveTransactions(filtered);
+    setStatusMessage(message);
   };
 
   return (
@@ -28,9 +31,26 @@ function Import() {
         onChange={(e) => setCsv(e.target.value)}
         className="textarea w-full h-64"
       />
-      <button onClick={handleSubmit} className="button mt-2">
-        Submit
-      </button>
+      <div className="flex justify-between mt-2">
+        <div className="select">
+          <select
+            onChange={(e) => {
+              setAccount(e.target.value);
+            }}
+            value={account}
+          >
+            {Object.keys(Account).map((key) => (
+              <option key={key} value={key}>
+                {AccountNames[key as Account]}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button onClick={handleSubmit} className="button">
+          Submit
+        </button>
+      </div>
+      <div className="mt-2">{statusMessage && <p>{statusMessage}</p>}</div>
     </div>
   );
 }
