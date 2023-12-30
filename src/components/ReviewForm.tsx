@@ -26,7 +26,6 @@ function ReviewForm({
     transaction.merchantCategory
   );
   const [category, setCategory] = useState(transaction.category);
-  const [credit, setCredit] = useState(transaction.credit);
   const [notes, setNotes] = useState(transaction.notes);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -38,7 +37,6 @@ function ReviewForm({
       merchant,
       merchantCategory,
       category,
-      credit,
       notes,
       reviewed: Bool.TRUE,
     });
@@ -66,7 +64,9 @@ function ReviewForm({
                 </p>
               );
             })()}
-            <p className="m-0">${transaction.amount}</p>
+            <p className={transaction.credit ? "mt-0 bg-green-300" : "mt-0"}>
+              ${transaction.amount}
+            </p>
           </div>
           <div className="text-gray-400">
             <p className="m-0">
@@ -120,18 +120,6 @@ function ReviewForm({
                   onChange={(e) => setNotes(e.target.value)}
                 />
               </div>
-            </div>
-            <div className="mt-2">
-              <label className="checkbox flex items-center">
-                <input
-                  type="checkbox"
-                  checked={credit == Bool.TRUE ? true : false}
-                  onChange={(e) => {
-                    setCredit(e.target.checked ? Bool.TRUE : Bool.FALSE);
-                  }}
-                />
-                <span className="ml-1">Credit</span>
-              </label>
             </div>
             <div className="flex justify-end gap-2">
               <button type="button" className="button" onClick={handleSkip}>
