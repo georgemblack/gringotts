@@ -18,3 +18,15 @@ export async function saveTransactions(
   }
   return `${transactions.length} transactions saved`;
 }
+
+export async function updateTransaction(
+  transaction: Transaction
+): Promise<string> {
+  try {
+    if (!transaction.id) return `Error updating transaction: no id`;
+    await db.transactions.update(transaction.id, transaction);
+  } catch (error) {
+    return `Error updating transaction: ${error}`;
+  }
+  return `Transaction updated`;
+}

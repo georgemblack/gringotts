@@ -1,5 +1,7 @@
 import { useState } from "react";
+import * as React from "react";
 
+import { updateTransaction } from "../lib/Repository";
 import { Bool, Transaction } from "../lib/Types";
 
 function ReviewForm({ transaction }: { transaction: Transaction }) {
@@ -11,18 +13,44 @@ function ReviewForm({ transaction }: { transaction: Transaction }) {
   const [credit, setCredit] = useState(transaction.credit);
   const [notes, setNotes] = useState(transaction.notes);
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (merchant === "" || merchantCategory === "" || category === "") return;
+
+    updateTransaction({
+      ...transaction,
+      merchant,
+      merchantCategory,
+      category,
+      credit,
+      notes,
+      reviewed: Bool.TRUE,
+    });
+  };
+
+  const handleSkip = async (event: React.FormEvent) => {
+    event.preventDefault();
+    updateTransaction({
+      ...transaction,
+      skipped: Bool.TRUE,
+      reviewed: Bool.TRUE,
+    });
+  };
+
   return (
     <div className="card">
       <div className="card-content">
         <div className="content">
-          <div className="flex justify-between">
-            <p>{transaction.date}</p>
-            <p>${transaction.amount}</p>
+          <div className="flex justify-between font-mono">
+            <p className="m-0">{transaction.date}</p>
+            <p className="m-0">${transaction.amount}</p>
           </div>
-          <div>
-            <p>{transaction.description}</p>
+          <div className="text-gray-400">
+            <p className="m-0">
+              {transaction.description}, {transaction.account}
+            </p>
           </div>
-          <form>
+          <form className="mt-4" onSubmit={handleSubmit}>
             <div className="flex gap-2">
               <input
                 className="input"
@@ -64,7 +92,9 @@ function ReviewForm({ transaction }: { transaction: Transaction }) {
               </label>
             </div>
             <div className="flex justify-end gap-2">
-              <button className="button">Skip</button>
+              <button type="button" className="button" onClick={handleSkip}>
+                Skip
+              </button>
               <button type="submit" className="button is-primary">
                 Save
               </button>
