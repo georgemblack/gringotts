@@ -37,6 +37,7 @@ export function c1CreditRecordToTransaction(
     account: account,
     notes: "",
     skipped: Bool.FALSE,
+    reviewed: Bool.FALSE,
   };
 }
 

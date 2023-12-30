@@ -41,7 +41,7 @@ function Import() {
           >
             {Object.keys(Account).map((key) => (
               <option key={key} value={key}>
-                {AccountNames[key as Account]}
+                {key}
               </option>
             ))}
           </select>

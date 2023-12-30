@@ -6,20 +6,20 @@ import Transactions from "./views/Transactions";
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <nav className="flex gap-4">
-          <Link to="/">Import</Link>
-          <Link to="/review">Review</Link>
-          <Link to="/transactions">Transactions</Link>
-        </nav>
+    <BrowserRouter>
+      <nav className="flex gap-4">
+        <Link to="/">Import</Link>
+        <Link to="/review">Review</Link>
+        <Link to="/transactions">Transactions</Link>
+      </nav>
+      <div className="mt-4">
         <Routes>
           <Route path="/" element={<Import />} />
           <Route path="/review" element={<Review />} />
           <Route path="/transactions" element={<Transactions />} />
         </Routes>
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
