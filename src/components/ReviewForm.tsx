@@ -72,7 +72,10 @@ function ReviewForm({
                   value={merchant}
                   suggestions={merchants}
                   placeholder="Merchant"
-                  onChange={setMerchant}
+                  onChange={(merchant) => {
+                    // TODO: See if we can match & set merchant category
+                    setMerchant(merchant);
+                  }}
                 />
               </div>
               <div className="flex-1">
