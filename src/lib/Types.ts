@@ -33,20 +33,25 @@ export enum Category {
   GROCERIES = "GROCERIES",
   SUPPLIES = "SUPPLIES",
   TRANSPORTATION = "TRANSPORTATION",
-  ESSENTIAL_SERVICES = "ESSENTIAL_SERVICES",
   UTILITIES = "UTILITIES",
   AUTO_LOANS_MINIMUM = "AUTO_LOANS_MINIMUM",
   INSURANCE = "INSURANCE",
+  ESSENTIAL_SERVICES = "ESSENTIAL_SERVICES",
   ESSENTIAL_MISC = "ESSENTIAL_MISC",
   DINING_ENTERTAINMENT = "DINING_ENTERTAINMENT",
   SHOPPING = "SHOPPING",
-  TRAVEL_TRIPS = "TRAVEL_TRIPS",
+  TRIPS_TRAVEL = "TRIPS_TRAVEL",
   SUBSCRIPTIONS = "SUBSCRIPTIONS",
   HOBBIES = "HOBBIES",
-  ELECTIVE_SERVICES = "ELECTIVE_SERVICES",
   CHARITY = "CHARITY",
   GIFTS = "GIFTS",
+  ELECTIVE_SERVICES = "ELECTIVE_SERVICES",
+  ELECTIVE_MISC = "ELECTIVE_MISC",
   ELECTIVE_HIDDEN = "ELECTIVE_HIDDEN",
+  GENERAL_FUND_INVESTMENT = "GENERAL_FUND_INVESTMENT",
+  PROJECT_FUND_INVESTMNET = "PROJECT_FUND_INVESTMNET",
+  PRIVATE_FUND_INVESTMENT = "PRIVATE_FUND_INVESTMENT",
+  AUTO_LOANS_EXTRA = "AUTO_LOANS_EXTRA",
 }
 
 export const CategoryNames = {
@@ -59,21 +64,36 @@ export const CategoryNames = {
   [Category.GROCERIES]: "Groceries",
   [Category.SUPPLIES]: "Supplies",
   [Category.TRANSPORTATION]: "Transportation",
-  [Category.ESSENTIAL_SERVICES]: "Essential Services",
   [Category.UTILITIES]: "Utilities",
   [Category.AUTO_LOANS_MINIMUM]: "Auto Loans Minimum",
   [Category.INSURANCE]: "Insurance",
+  [Category.ESSENTIAL_SERVICES]: "Essential Services",
   [Category.ESSENTIAL_MISC]: "Essential Misc",
   [Category.DINING_ENTERTAINMENT]: "Dining & Entertainment",
   [Category.SHOPPING]: "Shopping",
-  [Category.TRAVEL_TRIPS]: "Travel & Trips",
+  [Category.TRIPS_TRAVEL]: "Trips & Travel",
   [Category.SUBSCRIPTIONS]: "Subscriptions",
   [Category.HOBBIES]: "Hobbies",
-  [Category.ELECTIVE_SERVICES]: "Elective Services",
   [Category.CHARITY]: "Charity",
   [Category.GIFTS]: "Gifts",
-  [Category.ELECTIVE_HIDDEN]: "Cashidy",
+  [Category.ELECTIVE_SERVICES]: "Elective Services",
+  [Category.ELECTIVE_MISC]: "Elective Misc",
+  [Category.ELECTIVE_HIDDEN]: "Elective Hidden",
+  [Category.GENERAL_FUND_INVESTMENT]: "General Fund Investment",
+  [Category.PROJECT_FUND_INVESTMNET]: "Project Fund Investment",
+  [Category.PRIVATE_FUND_INVESTMENT]: "Private Fund Investment",
+  [Category.AUTO_LOANS_EXTRA]: "Auto Loans Extra",
 };
+
+/**
+ * Given a category name (e.g. "Dining & Entertainment"), return the proper category (e.g. "DINING_ENTERTAINMENT").
+ */
+export function getProperCategory(category: string): Category | null {
+  for (const [key, value] of Object.entries(CategoryNames)) {
+    if (value === category) return key as Category;
+  }
+  return null;
+}
 
 export interface Transaction {
   id?: number;

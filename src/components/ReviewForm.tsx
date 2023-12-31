@@ -10,6 +10,7 @@ import {
   Transaction,
 } from "../lib/Types";
 import Autosuggest from "./Autosuggest";
+import CategoryField from "./CategoryField";
 
 function ReviewForm({
   transaction,
@@ -20,18 +21,16 @@ function ReviewForm({
   merchants: string[];
   merchantCategories: string[];
 }) {
-  const [merchant, setMerchant] = useState(transaction.merchant);
-  const [merchantCategory, setMerchantCategory] = useState(
-    transaction.merchantCategory
-  );
-  const [category, setCategory] = useState(transaction.category);
-  const [notes, setNotes] = useState(transaction.notes);
+  const [merchant, setMerchant] = useState<string>(transaction.merchant);
+  const [merchantCategory, setMerchantCategory] = useState<string>("");
+  const [category, setCategory] = useState<Category | null>(null);
+  const [notes, setNotes] = useState<string>(transaction.notes);
 
   const [ruleCreated, setRuleCreated] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (merchant === "" || merchantCategory === "" || category === "") return;
+    if (merchant === "" || merchantCategory === "" || category === null) return;
 
     updateTransaction({
       ...transaction,
@@ -83,7 +82,7 @@ function ReviewForm({
                     const rule = await getRule(merchant);
                     if (rule) {
                       setMerchantCategory(rule.merchantCategory);
-                      setCategory(rule.category);
+                      setCategory(rule.category as Category);
                     }
                   }}
                 />
@@ -99,14 +98,7 @@ function ReviewForm({
             </div>
             <div className="mt-4 flex gap-2">
               <div className="flex-1">
-                <Autosuggest
-                  value={category}
-                  suggestions={Object.keys(Category).map(
-                    (key) => CategoryNames[key as Category]
-                  )}
-                  placeholder="Category"
-                  onChange={setCategory}
-                />
+                <CategoryField value={category} onSelect={setCategory} />
               </div>
               <div className="flex-1">
                 <input

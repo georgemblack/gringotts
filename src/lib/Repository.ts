@@ -54,7 +54,7 @@ export async function deleteRule(id: number): Promise<void> {
   try {
     await db.rules.delete(id);
   } catch (error) {
-    console.log(`Error deleting rule: ${error}`);
+    console.error(`Error deleting rule: ${error}`);
   }
 }
 
@@ -101,7 +101,7 @@ export async function deleteTransaction(id: number): Promise<void> {
   try {
     await db.transactions.delete(id);
   } catch (error) {
-    console.log(`Error deleting transaction: ${error}`);
+    console.error(`Error deleting transaction: ${error}`);
   }
 }
 
