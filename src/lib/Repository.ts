@@ -3,6 +3,8 @@ import Dexie from "dexie";
 import { db } from "./DB";
 import { DBContents, Rule, Transaction } from "./Types";
 
+// TODO: Move all useLiveQuery queries to this file
+
 export async function getMerchants(): Promise<string[]> {
   try {
     const result = await db.transactions

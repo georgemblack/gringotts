@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { csvToTransactions, validTransaction } from "../lib/Process";
+import { csvToTransactions } from "../lib/Process";
 import { saveTransactions } from "../lib/Repository";
 import { Account, AccountNames } from "../lib/Types";
 
@@ -12,8 +12,7 @@ function Import() {
   // TODO: Handule duplicate transactions by adding values together
   const handleSubmit = async () => {
     const transactions = csvToTransactions(csv, account as Account);
-    const filtered = transactions.filter(validTransaction);
-    const message = await saveTransactions(filtered);
+    const message = await saveTransactions(transactions);
     setStatusMessage(message);
     setCsv("");
   };

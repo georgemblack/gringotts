@@ -8,8 +8,12 @@ import {
   AppleCardCreditRecord,
   C1CheckingRecord,
 } from "./Types";
+import {
+  valid1CreditRecord,
+  validAppleCardCreditRecord,
+  validC1CheckingRecord,
+} from "./Validate";
 
-// TODO: Add a way to validate CSV fields proir to converting
 // TODO: Add support for Venmo CSV
 // TODO: Check for Apple Savings CSV
 
@@ -28,14 +32,6 @@ export function generateRecordId(record: any): string {
   return id;
 }
 
-export function validTransaction(transaction: Transaction): boolean {
-  return (
-    transaction.amount !== "" ||
-    transaction.amount === null ||
-    transaction.amount === undefined
-  );
-}
-
 /**
  * Convert raw CSV input to a list of transactions.
  */
@@ -52,17 +48,16 @@ export function csvToTransactions(
     )
   ) {
     const result = parse<C1CreditRecord>(csv.trim(), { header: true });
-    transactions = c1CreditRecordsToTransactions(
-      result.data,
-      account as Account
-    );
+    const filtered = result.data.filter(valid1CreditRecord);
+    transactions = c1CreditRecordsToTransactions(filtered, account as Account);
   }
 
   // Parse Capital One checking CSV
   if (account === Account.CAPITAL_ONE_CHECKING) {
     const result = parse<C1CheckingRecord>(csv.trim(), { header: true });
+    const filtered = result.data.filter(validC1CheckingRecord);
     transactions = c1CheckingRecordsToTransactions(
-      result.data,
+      filtered,
       account as Account
     );
   }
@@ -70,8 +65,9 @@ export function csvToTransactions(
   // Parse Apple Card credit card CSV
   if (account === Account.APPLE_CARD) {
     const result = parse<AppleCardCreditRecord>(csv.trim(), { header: true });
+    const filtered = result.data.filter(validAppleCardCreditRecord);
     transactions = appleCardCreditRecordsToTransactions(
-      result.data,
+      filtered,
       account as Account
     );
   }

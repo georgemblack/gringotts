@@ -4,6 +4,8 @@ import ReviewForm from "../components/ReviewForm";
 import { db } from "../lib/DB";
 import { Bool } from "../lib/Types";
 
+// TODO: Add support for tagging
+
 function Review() {
   const merchants =
     useLiveQuery(async () => {
