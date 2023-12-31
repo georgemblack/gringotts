@@ -57,7 +57,7 @@ export async function updateTransaction(
   return `Transaction updated`;
 }
 
-export async function getAllData(): Promise<{
+export async function exportDB(): Promise<{
   db: DBContents;
   message: string;
 }> {
@@ -67,4 +67,13 @@ export async function getAllData(): Promise<{
   } catch (error) {
     return { db: { transactions: [] }, message: `Error with export: ${error}` };
   }
+}
+
+export async function importDB(db: DBContents): Promise<string> {
+  try {
+    await saveTransactions(db.transactions);
+  } catch (error) {
+    return `Error with import: ${error}`;
+  }
+  return "Import successful";
 }

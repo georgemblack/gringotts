@@ -1,32 +1,50 @@
 import { useState } from "react";
 
-import { getAllData } from "../lib/Repository";
+import { exportDB, importDB } from "../lib/Repository";
+import { DBContents } from "../lib/Types";
 
 function Sync() {
-  const [url, setUrl] = useState<string>("");
+  const [exportUrl, setExportUrl] = useState<string>("");
+  const [importData, setImportData] = useState<string>("");
+  const [statusMessage, setStatusMessage] = useState<string>("");
 
-  const handleImport = () => {};
+  const handleImport = async () => {
+    if (importData === "") return;
+    const data: DBContents = JSON.parse(importData);
+    const message = await importDB(data);
+    setStatusMessage(message);
+  };
 
   const handleExport = async () => {
-    const result = await getAllData();
-    console.log(result);
-    const blob = new Blob([JSON.stringify(result)], { type: "text/json" });
-    setUrl(URL.createObjectURL(blob));
+    const result = await exportDB();
+    const blob = new Blob([JSON.stringify(result.db)], { type: "text/json" });
+    setExportUrl(URL.createObjectURL(blob));
+    setStatusMessage(result.message);
   };
 
   return (
     <div>
-      <div className="mt-4 flex gap-2">
-        <button className="button" onClick={handleImport}>
-          Import
-        </button>
-        <button className="button" onClick={handleExport}>
-          Export
-        </button>
+      <div className="flex justify-between items-center">
+        <div className="mt-4 flex gap-2">
+          <button className="button" onClick={handleImport}>
+            Import
+          </button>
+          <button className="button" onClick={handleExport}>
+            Export
+          </button>
+        </div>
+        <div className="mt-2">
+          <a href={exportUrl}>Download</a>
+        </div>
       </div>
       <div className="mt-2">
-        <a href={url}>Download</a>
+        <textarea
+          value={importData}
+          onChange={(e) => setImportData(e.target.value)}
+          className="textarea"
+        />
       </div>
+      <div className="mt-2">{statusMessage && <p>{statusMessage}</p>}</div>
     </div>
   );
 }
