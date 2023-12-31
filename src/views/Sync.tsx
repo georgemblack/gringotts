@@ -31,8 +31,8 @@ function Sync() {
           className="textarea"
         />
       </div>
-      <div className="flex justify-between items-center mt-4">
-        <div className="mt-2">
+      <div className="flex justify-between mt-2">
+        <div>
           <a href={exportUrl}>Download</a>
         </div>
         <div className="flex gap-2">

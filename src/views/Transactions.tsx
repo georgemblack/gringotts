@@ -19,7 +19,6 @@ function Transactions() {
             <th>Date</th>
             <th>Amount</th>
             <th>Merchant</th>
-            <th>Merchant Category</th>
             <th>Category</th>
             <th>Account</th>
             <th>Notes</th>
@@ -30,8 +29,9 @@ function Transactions() {
             <tr key={transaction.id}>
               <td>{transaction.date}</td>
               <td>{transaction.amount}</td>
-              <td>{transaction.merchant}</td>
-              <td>{transaction.merchantCategory}</td>
+              <td>
+                {transaction.merchant} • {transaction.merchantCategory}
+              </td>
               <td>{transaction.category}</td>
               <td>{AccountNames[transaction.account]}</td>
               <td>{transaction.notes}</td>
