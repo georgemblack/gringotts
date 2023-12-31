@@ -1,24 +1,32 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { useEffect, useState } from "react";
 
 import ReviewForm from "../components/ReviewForm";
 import { db } from "../lib/DB";
-import { getMerchantCategories, getMerchants } from "../lib/Repository";
 import { Bool } from "../lib/Types";
 
 function Review() {
-  const [merchants, setMerchants] = useState<string[]>([]);
-  const [merchantCategories, setMerchantCategories] = useState<string[]>([]);
+  const merchants =
+    useLiveQuery(async () => {
+      const result = await db.transactions
+        .where("merchant")
+        .notEqual("")
+        .uniqueKeys();
+      return result.map((key) => String(key));
+    }) || [];
+
+  const merchantCategories =
+    useLiveQuery(async () => {
+      const result = await db.transactions
+        .where("merchantCategory")
+        .notEqual("")
+        .uniqueKeys();
+      return result.map((key) => String(key));
+    }) || [];
 
   const transactions =
     useLiveQuery(() =>
       db.transactions.where({ reviewed: Bool.FALSE }).toArray()
     ) || [];
-
-  useEffect(() => {
-    getMerchants().then(setMerchants);
-    getMerchantCategories().then(setMerchantCategories);
-  }, []);
 
   return (
     <div>
