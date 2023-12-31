@@ -130,3 +130,7 @@ export interface AppleCardCreditRecord {
   "Amount (USD)": string;
   "Purchased By": string;
 }
+
+export interface DBContents {
+  transactions: Transaction[];
+}

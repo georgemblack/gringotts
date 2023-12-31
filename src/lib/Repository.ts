@@ -1,7 +1,7 @@
 import Dexie from "dexie";
 
 import { db } from "./DB";
-import { Transaction } from "./Types";
+import { DBContents, Transaction } from "./Types";
 
 export async function getMerchants(): Promise<string[]> {
   try {
@@ -55,4 +55,16 @@ export async function updateTransaction(
     return `Error updating transaction: ${error}`;
   }
   return `Transaction updated`;
+}
+
+export async function getAllData(): Promise<{
+  db: DBContents;
+  message: string;
+}> {
+  try {
+    const transactions = await db.transactions.toArray();
+    return { db: { transactions }, message: "Export successful" };
+  } catch (error) {
+    return { db: { transactions: [] }, message: `Error with export: ${error}` };
+  }
 }
