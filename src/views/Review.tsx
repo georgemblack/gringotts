@@ -5,6 +5,7 @@ import { db } from "../lib/DB";
 import { Bool } from "../lib/Types";
 
 // TODO: Add support for tagging
+// TODO: Add support for filtering by account
 
 function Review() {
   const merchants =
