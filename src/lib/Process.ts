@@ -9,6 +9,8 @@ import {
   C1CheckingRecord,
 } from "./Types";
 
+// TODO: Add a way to validate CSV fields proir to converting
+
 /**
  * Generate a unique identifier for a raw transaction by:
  * 1. Sorting the keys of the raw transaction
