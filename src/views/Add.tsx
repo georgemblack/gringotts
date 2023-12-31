@@ -113,7 +113,7 @@ function Add() {
             />
           </div>
         </div>
-        <div className="mt-2 flex justify-between">
+        <div className="mt-4 flex justify-between">
           <div className="select">
             <select
               onChange={(e) => {

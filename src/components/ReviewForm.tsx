@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as React from "react";
 
-import { getRule, updateTransaction } from "../lib/Repository";
+import { getRule, saveRule, updateTransaction } from "../lib/Repository";
 import {
   AccountNames,
   Bool,
@@ -26,6 +26,8 @@ function ReviewForm({
   );
   const [category, setCategory] = useState(transaction.category);
   const [notes, setNotes] = useState(transaction.notes);
+
+  const [ruleCreated, setRuleCreated] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -120,13 +122,32 @@ function ReviewForm({
                 />
               </div>
             </div>
-            <div className="flex justify-end gap-2">
-              <button type="button" className="button" onClick={handleSkip}>
-                Skip
-              </button>
-              <button type="submit" className="button is-primary">
-                Save
-              </button>
+            <div className="flex justify-between mt-4">
+              <div className="flex gap-2 items-center">
+                <button
+                  type="button"
+                  className="button is-disabled"
+                  onClick={async () => {
+                    await saveRule({
+                      merchant,
+                      merchantCategory,
+                      category,
+                    });
+                    setRuleCreated(true);
+                  }}
+                  disabled={ruleCreated}
+                >
+                  Create Rule
+                </button>
+              </div>
+              <div className="flex justify-end gap-2">
+                <button type="button" className="button" onClick={handleSkip}>
+                  Skip
+                </button>
+                <button type="submit" className="button is-primary">
+                  Save
+                </button>
+              </div>
             </div>
           </form>
         </div>

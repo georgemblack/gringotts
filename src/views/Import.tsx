@@ -25,7 +25,7 @@ function Import() {
         onChange={(e) => setCsv(e.target.value)}
         className="textarea w-full h-64"
       />
-      <div className="flex justify-between mt-2">
+      <div className="flex justify-between mt-4">
         <div className="select">
           <select
             onChange={(e) => {
