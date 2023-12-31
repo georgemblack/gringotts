@@ -89,6 +89,14 @@ export async function updateTransaction(
   return `Transaction updated`;
 }
 
+export async function deleteTransaction(id: number): Promise<void> {
+  try {
+    await db.transactions.delete(id);
+  } catch (error) {
+    console.log(`Error deleting transaction: ${error}`);
+  }
+}
+
 export async function exportDB(): Promise<{
   db: DBContents;
   message: string;

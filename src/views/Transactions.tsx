@@ -1,6 +1,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { db } from "../lib/DB";
+import { deleteTransaction } from "../lib/Repository";
 import { AccountNames, Bool } from "../lib/Types";
 
 // TODO: Add button to delete transaction
@@ -14,9 +15,13 @@ function Transactions() {
         .toArray()
     ) || [];
 
+  const handleDelete = async (id: number) => {
+    await deleteTransaction(id);
+  };
+
   return (
     <div>
-      <table className="table w-full">
+      <table className="table w-full is-striped is-narrow">
         <thead>
           <tr>
             <th>Date</th>
@@ -25,6 +30,7 @@ function Transactions() {
             <th>Category</th>
             <th>Account</th>
             <th>Notes</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -33,13 +39,23 @@ function Transactions() {
               <td>
                 {transaction.month}/{transaction.day}/{transaction.year}
               </td>
-              <td>{transaction.amount}</td>
+              <td>${transaction.amount}</td>
               <td>
                 {transaction.merchant} • {transaction.merchantCategory}
               </td>
               <td>{transaction.category}</td>
               <td>{AccountNames[transaction.account]}</td>
               <td>{transaction.notes}</td>
+              <td>
+                <span
+                  className="cursor-pointer"
+                  onClick={() => {
+                    if (transaction.id) handleDelete(transaction.id);
+                  }}
+                >
+                  🗑️
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
