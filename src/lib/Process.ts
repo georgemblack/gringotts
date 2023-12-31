@@ -119,7 +119,7 @@ export function c1CheckingRecordToTransaction(
 ): Transaction {
   // Convert date from 'MM/DD/YYYY' to 'YYYY-MM-DD'
   const split = record["Transaction Date"].split("/");
-  const date = `${split[2]}-${split[0]}-${split[1]}`;
+  const date = `20${split[2]}-${split[0]}-${split[1]}`;
 
   // If amount is positive, it's a credit
   const credit =

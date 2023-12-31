@@ -15,6 +15,7 @@ function Import() {
     const filtered = transactions.filter(validTransaction);
     const message = await saveTransactions(filtered);
     setStatusMessage(message);
+    setCsv("");
   };
 
   return (
