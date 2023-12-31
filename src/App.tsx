@@ -7,6 +7,8 @@ import Rules from "./views/Rules";
 import Sync from "./views/Sync";
 import Transactions from "./views/Transactions";
 
+// TODO: Add page for summary view
+
 function App() {
   return (
     <BrowserRouter>

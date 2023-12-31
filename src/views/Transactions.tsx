@@ -4,6 +4,7 @@ import { db } from "../lib/DB";
 import { AccountNames, Bool } from "../lib/Types";
 
 // TODO: Add button to delete transaction
+// TODO: Add filters for month/year
 
 function Transactions() {
   const transactions =
