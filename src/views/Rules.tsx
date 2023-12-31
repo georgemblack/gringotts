@@ -2,6 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import { db } from "../lib/DB";
 import { deleteRule } from "../lib/Repository";
+import { Category, CategoryNames } from "../lib/Types";
 
 function Rules() {
   const rules = useLiveQuery(() => db.rules.toArray()) || [];
@@ -26,7 +27,7 @@ function Rules() {
             <tr key={rule.id}>
               <td>{rule.merchant}</td>
               <td>{rule.merchantCategory}</td>
-              <td>{rule.category}</td>
+              <td>{CategoryNames[rule.category as Category]}</td>
               <td className="flex justify-end">
                 <span
                   className="cursor-pointer"
