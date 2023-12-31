@@ -130,6 +130,16 @@ export interface AppleCardCreditRecord {
   "Purchased By": string;
 }
 
+export interface AppleCardSavingsRecord {
+  "Transaction Date": string;
+  "Posted Date": string;
+  "Activity Type": string;
+  "Transaction Type": string;
+  Description: string;
+  "Currency Code": string;
+  Amount: string;
+}
+
 export interface DBContents {
   transactions: Transaction[];
 }

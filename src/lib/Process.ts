@@ -7,10 +7,12 @@ import {
   Account,
   AppleCardCreditRecord,
   C1CheckingRecord,
+  AppleCardSavingsRecord,
 } from "./Types";
 import {
   valid1CreditRecord,
   validAppleCardCreditRecord,
+  validAppleCardSavingsRecord,
   validC1CheckingRecord,
 } from "./Validate";
 
@@ -67,6 +69,16 @@ export function csvToTransactions(
     const result = parse<AppleCardCreditRecord>(csv.trim(), { header: true });
     const filtered = result.data.filter(validAppleCardCreditRecord);
     transactions = appleCardCreditRecordsToTransactions(
+      filtered,
+      account as Account
+    );
+  }
+
+  // Parse Apple Card Savings CSV
+  if (account === Account.APPLE_SAVINGS) {
+    const result = parse<AppleCardSavingsRecord>(csv.trim(), { header: true });
+    const filtered = result.data.filter(validAppleCardSavingsRecord);
+    transactions = appleCardSavingsRecordsToTransactions(
       filtered,
       account as Account
     );
@@ -197,5 +209,41 @@ export function appleCardCreditRecordsToTransactions(
 ): Transaction[] {
   return records.map((record) =>
     appleCardCreditRecordToTransaction(record, account)
+  );
+}
+
+/**
+ * Convert a record from an Apple Card savings account to a standard transaction.
+ */
+export function appleCardSavingsRecordToTransaction(
+  record: AppleCardSavingsRecord,
+  account: Account
+): Transaction {
+  const credit = record["Activity Type"] === "Credit" ? Bool.TRUE : Bool.FALSE;
+
+  return {
+    key: generateRecordId(record),
+    day: Number(record["Transaction Date"].split("/")[1]),
+    month: Number(record["Transaction Date"].split("/")[0]),
+    year: Number(record["Transaction Date"].split("/")[2]),
+    amount: record.Amount,
+    credit,
+    merchant: "",
+    merchantCategory: "",
+    category: "",
+    account,
+    description: record.Description,
+    notes: "",
+    skipped: Bool.FALSE,
+    reviewed: Bool.FALSE,
+  };
+}
+
+export function appleCardSavingsRecordsToTransactions(
+  records: AppleCardSavingsRecord[],
+  account: Account
+): Transaction[] {
+  return records.map((record) =>
+    appleCardSavingsRecordToTransaction(record, account)
   );
 }

@@ -1,5 +1,6 @@
 import {
   AppleCardCreditRecord,
+  AppleCardSavingsRecord,
   C1CheckingRecord,
   C1CreditRecord,
 } from "./Types";
@@ -42,5 +43,20 @@ export function validAppleCardCreditRecord(
     record["Amount (USD)"] !== undefined &&
     record["Amount (USD)"] !== "" &&
     record["Purchased By"] !== undefined
+  );
+}
+
+export function validAppleCardSavingsRecord(
+  record: AppleCardSavingsRecord
+): boolean {
+  return (
+    record["Transaction Date"] !== undefined &&
+    record["Posted Date"] !== undefined &&
+    record["Activity Type"] !== undefined &&
+    record["Transaction Type"] !== undefined &&
+    record.Description !== undefined &&
+    record["Currency Code"] !== undefined &&
+    record.Amount !== undefined &&
+    record.Amount !== ""
   );
 }
