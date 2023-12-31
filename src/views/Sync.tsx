@@ -24,7 +24,17 @@ function Sync() {
 
   return (
     <>
+      <div className="mt-2">
+        <textarea
+          value={importData}
+          onChange={(e) => setImportData(e.target.value)}
+          className="textarea"
+        />
+      </div>
       <div className="flex justify-between items-center mt-4">
+        <div className="mt-2">
+          <a href={exportUrl}>Download</a>
+        </div>
         <div className="flex gap-2">
           <button className="button" onClick={handleImport}>
             Import
@@ -33,16 +43,6 @@ function Sync() {
             Export
           </button>
         </div>
-        <div className="mt-2">
-          <a href={exportUrl}>Download</a>
-        </div>
-      </div>
-      <div className="mt-2">
-        <textarea
-          value={importData}
-          onChange={(e) => setImportData(e.target.value)}
-          className="textarea"
-        />
       </div>
       <div className="mt-2">{statusMessage && <p>{statusMessage}</p>}</div>
     </>
