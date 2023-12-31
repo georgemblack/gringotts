@@ -9,7 +9,7 @@ export class DB extends Dexie {
   constructor() {
     super("gringotts");
     this.version(1).stores({
-      rules: "++id, type",
+      rules: "++id, &merchant",
       transactions:
         "++id, &key, merchant, merchantCategory, category, skipped, reviewed, [skipped+reviewed]",
     });

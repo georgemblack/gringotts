@@ -77,14 +77,6 @@ export const CategoryNames = {
   [Category.ELECTIVE_HIDDEN]: "Cashidy",
 };
 
-export const MerchantCategoryMap = {
-  Amazon: "Online Retailer",
-  Backblaze: "Cloud Provider",
-  Cloudflare: "Cloud Provider",
-  "Capital One": "Bank",
-  Chase: "Bank",
-};
-
 export interface Transaction {
   id?: number;
   key: string;
@@ -103,20 +95,10 @@ export interface Transaction {
 
 export interface Rule {
   id?: number;
-  type: string;
-  source: string;
-  destination: string;
+  merchant: string;
+  merchantCategory: string;
+  category: string;
 }
-
-export enum RuleType {
-  MERCH_TO_MERCH_CAT = "MERCH_TO_MERCH_CAT",
-  MERCH_TO_CAT = "MERCH_TO_CAT",
-}
-
-export const RuleTypeNames = {
-  [RuleType.MERCH_TO_MERCH_CAT]: "Merchant to Merchant Category",
-  [RuleType.MERCH_TO_CAT]: "Merchant to Category",
-};
 
 export interface C1CreditRecord {
   "Card No.": string;

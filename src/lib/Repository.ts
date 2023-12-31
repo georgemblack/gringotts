@@ -29,6 +29,16 @@ export async function getMerchantCategories(): Promise<string[]> {
   }
 }
 
+export async function getRule(merchant: string): Promise<Rule | undefined> {
+  try {
+    const rules = await db.rules.where("merchant").equals(merchant).toArray();
+    if (rules.length !== 1) return undefined;
+    return rules[0];
+  } catch (error) {
+    return undefined;
+  }
+}
+
 export async function saveTransaction(
   transaction: Transaction
 ): Promise<string> {
