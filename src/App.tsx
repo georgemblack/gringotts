@@ -3,6 +3,7 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import Add from "./views/Add";
 import Import from "./views/Import";
 import Review from "./views/Review";
+import Rules from "./views/Rules";
 import Sync from "./views/Sync";
 import Transactions from "./views/Transactions";
 
@@ -15,6 +16,7 @@ function App() {
         <Link to="/sync">Sync</Link>
         <Link to="/review">Review</Link>
         <Link to="/transactions">Transactions</Link>
+        <Link to="/rules">Rules</Link>
       </nav>
       <div className="mt-4">
         <Routes>
@@ -23,6 +25,7 @@ function App() {
           <Route path="/sync" element={<Sync />} />
           <Route path="/review" element={<Review />} />
           <Route path="/transactions" element={<Transactions />} />
+          <Route path="/rules" element={<Rules />} />
         </Routes>
       </div>
     </BrowserRouter>

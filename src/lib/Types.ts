@@ -101,6 +101,23 @@ export interface Transaction {
   reviewed: Bool.FALSE | Bool.TRUE;
 }
 
+export interface Rule {
+  id?: number;
+  type: string;
+  source: string;
+  destination: string;
+}
+
+export enum RuleType {
+  MERCH_TO_MERCH_CAT = "MERCH_TO_MERCH_CAT",
+  MERCH_TO_CAT = "MERCH_TO_CAT",
+}
+
+export const RuleTypeNames = {
+  [RuleType.MERCH_TO_MERCH_CAT]: "Merchant to Merchant Category",
+  [RuleType.MERCH_TO_CAT]: "Merchant to Category",
+};
+
 export interface C1CreditRecord {
   "Card No.": string;
   Category: string;

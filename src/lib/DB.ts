@@ -1,13 +1,15 @@
 import Dexie, { Table } from "dexie";
 
-import { Transaction } from "./Types";
+import { Rule, Transaction } from "./Types";
 
 export class DB extends Dexie {
+  rules!: Table<Rule>;
   transactions!: Table<Transaction>;
 
   constructor() {
     super("gringotts");
     this.version(1).stores({
+      rules: "++id, type",
       transactions:
         "++id, &key, merchant, merchantCategory, category, skipped, reviewed, [skipped+reviewed]",
     });

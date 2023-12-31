@@ -1,7 +1,7 @@
 import Dexie from "dexie";
 
 import { db } from "./DB";
-import { DBContents, Transaction } from "./Types";
+import { DBContents, Rule, Transaction } from "./Types";
 
 export async function getMerchants(): Promise<string[]> {
   try {
@@ -66,6 +66,15 @@ export async function updateTransaction(
     return `Error updating transaction: ${error}`;
   }
   return `Transaction updated`;
+}
+
+export async function saveRule(rule: Rule): Promise<string> {
+  try {
+    await db.rules.add(rule);
+  } catch (error) {
+    return `Error saving rule: ${error}`;
+  }
+  return "Rule saved";
 }
 
 export async function exportDB(): Promise<{
