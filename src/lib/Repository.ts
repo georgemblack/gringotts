@@ -29,6 +29,17 @@ export async function getMerchantCategories(): Promise<string[]> {
   }
 }
 
+export async function saveTransaction(
+  transaction: Transaction
+): Promise<string> {
+  try {
+    await db.transactions.add(transaction);
+  } catch (error) {
+    return `Error saving transaction: ${error}`;
+  }
+  return "Transaction saved";
+}
+
 export async function saveTransactions(
   transactions: Transaction[]
 ): Promise<string> {

@@ -23,9 +23,9 @@ function Sync() {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        <div className="mt-4 flex gap-2">
+    <>
+      <div className="flex justify-between items-center mt-4">
+        <div className="flex gap-2">
           <button className="button" onClick={handleImport}>
             Import
           </button>
@@ -45,7 +45,7 @@ function Sync() {
         />
       </div>
       <div className="mt-2">{statusMessage && <p>{statusMessage}</p>}</div>
-    </div>
+    </>
   );
 }
 
