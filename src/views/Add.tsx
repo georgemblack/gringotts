@@ -15,7 +15,6 @@ import {
   CategoryNames,
 } from "../lib/Types";
 
-// TODO: implement
 function Add() {
   const [merchants, setMerchants] = useState<string[]>([]);
   const [merchantCategories, setMerchantCategories] = useState<string[]>([]);
