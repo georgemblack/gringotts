@@ -2,7 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useState } from "react";
 
 import { db } from "../lib/DB";
-import { saveRule } from "../lib/Repository";
+import { deleteRule, saveRule } from "../lib/Repository";
 
 function Rules() {
   const rules = useLiveQuery(() => db.rules.toArray()) || [];
@@ -24,12 +24,12 @@ function Rules() {
   };
 
   const handleDelete = async (id: number) => {
-    await db.rules.delete(id);
+    await deleteRule(id);
   };
 
   return (
     <>
-      <table className="table w-full mt-4">
+      <table className="table w-full mt-4 is-striped is-narrow">
         <thead>
           <tr>
             <th>Merchant</th>
@@ -45,14 +45,14 @@ function Rules() {
               <td>{rule.merchantCategory}</td>
               <td>{rule.category}</td>
               <td className="flex justify-end">
-                <button
+                <span
+                  className="cursor-pointer"
                   onClick={() => {
                     if (rule.id) handleDelete(rule.id);
                   }}
-                  className="button is-danger is-small is-light"
                 >
-                  Delete
-                </button>
+                  🗑️
+                </span>
               </td>
             </tr>
           ))}

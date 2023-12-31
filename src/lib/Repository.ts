@@ -50,6 +50,14 @@ export async function saveRule(rule: Rule): Promise<string> {
   return "Rule saved";
 }
 
+export async function deleteRule(id: number): Promise<void> {
+  try {
+    await db.rules.delete(id);
+  } catch (error) {
+    console.log(`Error deleting rule: ${error}`);
+  }
+}
+
 export async function saveTransaction(
   transaction: Transaction
 ): Promise<string> {
