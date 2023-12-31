@@ -3,6 +3,8 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../lib/DB";
 import { AccountNames, Bool } from "../lib/Types";
 
+// TODO: Add button to delete transaction
+
 function Transactions() {
   const transactions =
     useLiveQuery(() =>
