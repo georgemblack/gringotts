@@ -78,14 +78,16 @@ export const CategoryNames = {
 export interface Transaction {
   id?: number;
   key: string;
-  date: string;
-  description: string;
+  day: number;
+  month: number;
+  year: number;
+  amount: string;
+  credit: Bool.FALSE | Bool.TRUE;
   merchant: string;
   merchantCategory: string;
   category: string;
-  amount: string;
-  credit: Bool.FALSE | Bool.TRUE;
   account: Account;
+  description: string;
   notes: string;
   skipped: Bool.FALSE | Bool.TRUE;
   reviewed: Bool.FALSE | Bool.TRUE;

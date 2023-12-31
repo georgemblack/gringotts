@@ -27,7 +27,9 @@ function Transactions() {
         <tbody>
           {transactions.map((transaction) => (
             <tr key={transaction.id}>
-              <td>{transaction.date}</td>
+              <td>
+                {transaction.month}/{transaction.day}/{transaction.year}
+              </td>
               <td>{transaction.amount}</td>
               <td>
                 {transaction.merchant} • {transaction.merchantCategory}

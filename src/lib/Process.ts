@@ -87,7 +87,9 @@ export function c1CreditRecordToTransaction(
 
   return {
     key: generateRecordId(record),
-    date: record["Transaction Date"],
+    day: Number(record["Transaction Date"].split("-")[2]),
+    month: Number(record["Transaction Date"].split("-")[1]),
+    year: Number(record["Transaction Date"].split("-")[0]),
     description: record.Description,
     merchant: "",
     merchantCategory: "",
@@ -115,10 +117,6 @@ export function c1CheckingRecordToTransaction(
   record: C1CheckingRecord,
   account: Account
 ): Transaction {
-  // Convert date from 'MM/DD/YYYY' to 'YYYY-MM-DD'
-  const split = record["Transaction Date"].split("/");
-  const date = `20${split[2]}-${split[0]}-${split[1]}`;
-
   // If amount is positive, it's a credit
   const credit =
     record["Transaction Amount"].startsWith("-") === true
@@ -133,7 +131,9 @@ export function c1CheckingRecordToTransaction(
 
   return {
     key: generateRecordId(record),
-    date,
+    day: Number(record["Transaction Date"].split("/")[1]),
+    month: Number(record["Transaction Date"].split("/")[0]),
+    year: Number(record["Transaction Date"].split("/")[2]),
     description: record["Transaction Description"],
     merchant: "",
     merchantCategory: "",
@@ -163,10 +163,6 @@ export function appleCardCreditRecordToTransaction(
   record: AppleCardCreditRecord,
   account: Account
 ): Transaction {
-  // Convert date from 'MM/DD/YYYY' to 'YYYY-MM-DD'
-  const split = record["Transaction Date"].split("/");
-  const date = `${split[2]}-${split[0]}-${split[1]}`;
-
   // If amount is negative, it's a credit
   const credit =
     record["Amount (USD)"].startsWith("-") === true ? Bool.TRUE : Bool.FALSE;
@@ -179,7 +175,9 @@ export function appleCardCreditRecordToTransaction(
 
   return {
     key: generateRecordId(record),
-    date,
+    day: Number(record["Transaction Date"].split("/")[1]),
+    month: Number(record["Transaction Date"].split("/")[0]),
+    year: Number(record["Transaction Date"].split("/")[2]),
     description: record.Description,
     merchant: "",
     merchantCategory: "",

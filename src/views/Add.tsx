@@ -37,7 +37,9 @@ function Add() {
     event.preventDefault();
     const message = await saveTransaction({
       key: uuidv4(),
-      date,
+      day: Number(date.split("/")[1]),
+      month: Number(date.split("/")[0]),
+      year: Number(date.split("/")[2]),
       description: "Manually created",
       merchant,
       merchantCategory,
@@ -70,7 +72,7 @@ function Add() {
           />
           <input
             className="input"
-            placeholder="Date (i.e. 2024-04-26)"
+            placeholder="Date (i.e. 4/26/2024)"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
