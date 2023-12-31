@@ -10,6 +10,8 @@ import {
 } from "./Types";
 
 // TODO: Add a way to validate CSV fields proir to converting
+// TODO: Add support for Venmo CSV
+// TODO: Check for Apple Savings CSV
 
 /**
  * Generate a unique identifier for a raw transaction by:

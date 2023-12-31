@@ -39,6 +39,15 @@ export async function getRule(merchant: string): Promise<Rule | undefined> {
   }
 }
 
+export async function saveRule(rule: Rule): Promise<string> {
+  try {
+    await db.rules.add(rule);
+  } catch (error) {
+    return `Error saving rule: ${error}`;
+  }
+  return "Rule saved";
+}
+
 export async function saveTransaction(
   transaction: Transaction
 ): Promise<string> {
@@ -76,15 +85,6 @@ export async function updateTransaction(
     return `Error updating transaction: ${error}`;
   }
   return `Transaction updated`;
-}
-
-export async function saveRule(rule: Rule): Promise<string> {
-  try {
-    await db.rules.add(rule);
-  } catch (error) {
-    return `Error saving rule: ${error}`;
-  }
-  return "Rule saved";
 }
 
 export async function exportDB(): Promise<{

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as React from "react";
 
-import { updateTransaction } from "../lib/Repository";
+import { getRule, updateTransaction } from "../lib/Repository";
 import {
   AccountNames,
   Bool,
@@ -79,8 +79,15 @@ function ReviewForm({
                   value={merchant}
                   suggestions={merchants}
                   placeholder="Merchant"
-                  onChange={(merchant) => {
+                  onChange={async (merchant) => {
                     setMerchant(merchant);
+
+                    // If there is a rule associated with this merchant, autofill 'merchantCategory' and 'category' as well
+                    const rule = await getRule(merchant);
+                    if (rule) {
+                      setMerchantCategory(rule.merchantCategory);
+                      setCategory(rule.category);
+                    }
                   }}
                 />
               </div>
