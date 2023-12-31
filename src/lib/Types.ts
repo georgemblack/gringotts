@@ -111,6 +111,15 @@ export interface C1CreditRecord {
   "Transaction Date": string;
 }
 
+export interface C1CheckingRecord {
+  "Account Number": string;
+  "Transaction Date": string;
+  "Transaction Amount": string;
+  "Transaction Type": string;
+  "Transaction Description": string;
+  Balance: string;
+}
+
 export interface AppleCardCreditRecord {
   "Transaction Date": string;
   "Clearing Date": string;

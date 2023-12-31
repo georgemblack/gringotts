@@ -9,7 +9,7 @@ export class DB extends Dexie {
     super("gringotts");
     this.version(1).stores({
       transactions:
-        "++id, &key, merchant, merchantCategory, category, skipped, reviewed",
+        "++id, &key, merchant, merchantCategory, category, skipped, reviewed, [skipped+reviewed]",
     });
   }
 }

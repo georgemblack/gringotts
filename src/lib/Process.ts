@@ -1,9 +1,12 @@
+import { parse } from "papaparse";
+
 import {
   C1CreditRecord,
   Transaction,
   Bool,
   Account,
   AppleCardCreditRecord,
+  C1CheckingRecord,
 } from "./Types";
 
 /**
@@ -22,7 +25,54 @@ export function generateRecordId(record: any): string {
 }
 
 export function validTransaction(transaction: Transaction): boolean {
-  return transaction.amount !== "" || transaction.amount === undefined;
+  return (
+    transaction.amount !== "" ||
+    transaction.amount === null ||
+    transaction.amount === undefined
+  );
+}
+
+/**
+ * Convert raw CSV input to a list of transactions.
+ */
+export function csvToTransactions(
+  csv: string,
+  account: Account
+): Transaction[] {
+  let transactions: Transaction[] = [];
+
+  // Parse Capital One credit CSV
+  if (
+    [Account.CAPITAL_ONE_SAVOR, Account.CAPITAL_ONE_QUICKSILVER].includes(
+      account as Account
+    )
+  ) {
+    const result = parse<C1CreditRecord>(csv.trim(), { header: true });
+    transactions = c1CreditRecordsToTransactions(
+      result.data,
+      account as Account
+    );
+  }
+
+  // Parse Capital One checking CSV
+  if (account === Account.CAPITAL_ONE_CHECKING) {
+    const result = parse<C1CheckingRecord>(csv.trim(), { header: true });
+    transactions = c1CheckingRecordsToTransactions(
+      result.data,
+      account as Account
+    );
+  }
+
+  // Parse Apple Card credit card CSV
+  if (account === Account.APPLE_CARD) {
+    const result = parse<AppleCardCreditRecord>(csv.trim(), { header: true });
+    transactions = appleCardCreditRecordsToTransactions(
+      result.data,
+      account as Account
+    );
+  }
+
+  return transactions;
 }
 
 /**
@@ -42,9 +92,9 @@ export function c1CreditRecordToTransaction(
     merchant: "",
     merchantCategory: "",
     category: "",
-    amount: amount,
-    credit: credit,
-    account: account,
+    amount,
+    credit,
+    account,
     notes: "",
     skipped: Bool.FALSE,
     reviewed: Bool.FALSE,
@@ -59,6 +109,54 @@ export function c1CreditRecordsToTransactions(
 }
 
 /**
+ * Convert a record from a C1 checking account to a standard transaction.
+ */
+export function c1CheckingRecordToTransaction(
+  record: C1CheckingRecord,
+  account: Account
+): Transaction {
+  // Convert date from 'MM/DD/YYYY' to 'YYYY-MM-DD'
+  const split = record["Transaction Date"].split("/");
+  const date = `${split[2]}-${split[0]}-${split[1]}`;
+
+  // If amount is positive, it's a credit
+  const credit =
+    record["Transaction Amount"].startsWith("-") === true
+      ? Bool.FALSE
+      : Bool.TRUE;
+
+  // Remove negative sign from amount if it's not a credit
+  const amount =
+    credit === Bool.TRUE
+      ? record["Transaction Amount"]
+      : record["Transaction Amount"].substring(1);
+
+  return {
+    key: generateRecordId(record),
+    date,
+    description: record["Transaction Description"],
+    merchant: "",
+    merchantCategory: "",
+    category: "",
+    amount,
+    credit,
+    account,
+    notes: "",
+    skipped: Bool.FALSE,
+    reviewed: Bool.FALSE,
+  };
+}
+
+export function c1CheckingRecordsToTransactions(
+  records: C1CheckingRecord[],
+  account: Account
+): Transaction[] {
+  return records.map((record) =>
+    c1CheckingRecordToTransaction(record, account)
+  );
+}
+
+/**
  * Convert a record from an Apple Card credit account to a standard transaction.
  */
 export function appleCardCreditRecordToTransaction(
@@ -66,7 +164,8 @@ export function appleCardCreditRecordToTransaction(
   account: Account
 ): Transaction {
   // Convert date from 'MM/DD/YYYY' to 'YYYY-MM-DD'
-  const date = record["Transaction Date"].split("/").reverse().join("-");
+  const split = record["Transaction Date"].split("/");
+  const date = `${split[2]}-${split[0]}-${split[1]}`;
 
   // If amount is negative, it's a credit
   const credit =
@@ -87,7 +186,7 @@ export function appleCardCreditRecordToTransaction(
     category: "",
     amount,
     credit,
-    account: account,
+    account,
     notes: "",
     skipped: Bool.FALSE,
     reviewed: Bool.FALSE,
