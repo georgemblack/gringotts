@@ -24,6 +24,10 @@ function Rules() {
     setDestination("");
   };
 
+  const handleDelete = async (id: number) => {
+    await db.rules.delete(id);
+  };
+
   return (
     <>
       <table className="table w-full mt-4">
@@ -32,6 +36,7 @@ function Rules() {
             <th>Rule Type</th>
             <th>Source</th>
             <th>Destination</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +45,16 @@ function Rules() {
               <td>{RuleTypeNames[rule.type as RuleType]}</td>
               <td>{rule.source}</td>
               <td>{rule.destination}</td>
+              <td className="flex justify-end">
+                <button
+                  onClick={() => {
+                    if (rule.id) handleDelete(rule.id);
+                  }}
+                  className="button is-danger is-small is-light"
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
