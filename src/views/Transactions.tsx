@@ -29,7 +29,6 @@ function Transactions() {
             <th>Merchant</th>
             <th>Category</th>
             <th>Account</th>
-            <th>Notes</th>
             <th></th>
           </tr>
         </thead>
@@ -45,7 +44,6 @@ function Transactions() {
               </td>
               <td>{CategoryNames[transaction.category as Category]}</td>
               <td>{AccountNames[transaction.account]}</td>
-              <td>{transaction.notes}</td>
               <td>
                 <span
                   className="cursor-pointer"
