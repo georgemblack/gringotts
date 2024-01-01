@@ -139,7 +139,17 @@ export async function exportDB(): Promise<{
 
 export async function importDB(db: DBContents): Promise<string> {
   try {
-    await saveTransactions(db.transactions);
+    // TEMPORARY: For migrating existing data
+    const newTransactions: Transaction[] = db.transactions.map(
+      (transaction) => {
+        return {
+          ...transaction,
+          amount: Number(transaction.amount),
+        };
+      }
+    );
+
+    await saveTransactions(newTransactions);
     await saveRules(db.rules);
   } catch (error) {
     return `Error with import: ${error}`;
