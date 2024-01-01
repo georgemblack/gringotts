@@ -115,6 +115,12 @@ function ReviewForm({
                   type="button"
                   className="button is-disabled"
                   onClick={async () => {
+                    if (
+                      merchant === "" ||
+                      merchantCategory === "" ||
+                      category === null
+                    )
+                      return;
                     await saveRule({
                       merchant,
                       merchantCategory,
