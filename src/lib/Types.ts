@@ -179,6 +179,15 @@ export interface AppleCardSavingsRecord {
   Amount: string;
 }
 
+export interface TransactionSummary {
+  items: TransactionSummaryItem[];
+}
+
+export interface TransactionSummaryItem {
+  category: Category;
+  values: { month: Month; total: number }[];
+}
+
 export interface DBResult {
   success: boolean;
   message: string;

@@ -1,8 +1,17 @@
-import { Month } from "../lib/Types";
+import { useEffect, useState } from "react";
+
+import { getSummary } from "../lib/Repository";
+import { CategoryNames, Month, TransactionSummary } from "../lib/Types";
 
 function Summary() {
+  const [summary, setSummary] = useState<TransactionSummary>({ items: [] });
+
+  useEffect(() => {
+    getSummary(2023).then((result) => setSummary(result));
+  }, []);
+
   return (
-    <table className="table mt-4 w-full">
+    <table className="table mt-4 w-full is-narrow">
       <thead>
         <tr>
           <th></th>
@@ -11,6 +20,18 @@ function Summary() {
           ))}
         </tr>
       </thead>
+      <tbody>
+        {summary.items.map((item) => {
+          return (
+            <tr key={item.category}>
+              <td>{CategoryNames[item.category]}</td>
+              {item.values.map((value) => {
+                return <td>{value.total}</td>;
+              })}
+            </tr>
+          );
+        })}
+      </tbody>
     </table>
   );
 }

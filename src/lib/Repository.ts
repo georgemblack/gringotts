@@ -1,7 +1,18 @@
 import Dexie from "dexie";
 
 import { db } from "./DB";
-import { Bool, DBContents, DBResult, Month, Rule, Transaction } from "./Types";
+import {
+  Bool,
+  Category,
+  DBContents,
+  DBResult,
+  Month,
+  Rule,
+  TransactionSummary,
+  TransactionSummaryItem,
+  Transaction,
+  getMonthNumber,
+} from "./Types";
 
 // TODO: Move all useLiveQuery queries to this file
 // TODO: Validate all data at repository level
@@ -138,6 +149,33 @@ export async function deleteTransaction(id: number): Promise<void> {
   } catch (error) {
     console.error(`Error deleting transaction: ${error}`);
   }
+}
+
+export async function getSummary(year: number): Promise<TransactionSummary> {
+  const result: TransactionSummary = { items: [] };
+  const transactions = await getTransactions({ year });
+
+  for (const category of Object.values(Category)) {
+    const newItem: TransactionSummaryItem = { category, values: [] };
+
+    // Find all transactions for the given category
+    const transactionsForCategory = transactions.filter(
+      (t) => t.category === category
+    );
+
+    // Calculate total for each month
+    for (const month of Object.values(Month)) {
+      const total = transactionsForCategory
+        .filter((t) => t.month === getMonthNumber(month))
+        .reduce((acc, t) => acc + t.amount, 0);
+      newItem.values.push({ month, total });
+    }
+
+    // Append new item to result
+    result.items.push(newItem);
+  }
+
+  return result;
 }
 
 export async function exportDB(): Promise<{
