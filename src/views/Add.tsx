@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Autosuggest from "../components/Autosuggest";
+import CategoryField from "../components/CategoryField";
 import {
   getMerchantCategories,
   getMerchants,
@@ -22,10 +23,10 @@ function Add() {
 
   const [amount, setAmount] = useState<string>("");
   const [date, setDate] = useState<string>("");
-  const [merchant, setMerchant] = useState("");
-  const [merchantCategory, setMerchantCategory] = useState("");
-  const [category, setCategory] = useState("");
-  const [notes, setNotes] = useState("");
+  const [merchant, setMerchant] = useState<string>("");
+  const [merchantCategory, setMerchantCategory] = useState<string>("");
+  const [category, setCategory] = useState<Category | null>(null);
+  const [notes, setNotes] = useState<string>("");
   const [account, setAccount] = useState(Account.CAPITAL_ONE_QUICKSILVER);
 
   useEffect(() => {
@@ -35,6 +36,8 @@ function Add() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (merchant === "" || merchantCategory === "" || category === null) return;
+
     const message = await saveTransaction({
       key: uuidv4(),
       day: Number(date.split("/")[1]),
@@ -56,7 +59,7 @@ function Add() {
     setDate("");
     setMerchant("");
     setMerchantCategory("");
-    setCategory("");
+    setCategory(null);
     setNotes("");
   };
 
@@ -97,14 +100,7 @@ function Add() {
         </div>
         <div className="mt-4 flex gap-2">
           <div className="flex-1">
-            <Autosuggest
-              value={category}
-              suggestions={Object.keys(Category).map(
-                (key) => CategoryNames[key as Category]
-              )}
-              placeholder="Category"
-              onChange={setCategory}
-            />
+            <CategoryField value={category} onSelect={setCategory} />
           </div>
           <div className="flex-1">
             <input

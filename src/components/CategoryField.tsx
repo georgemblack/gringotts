@@ -23,6 +23,7 @@ function CategoryField({
 
   useEffect(() => {
     if (value) setInput(CategoryNames[value]);
+    if (value === null) setInput("");
   }, [value]);
 
   return (
