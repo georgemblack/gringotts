@@ -4,6 +4,8 @@ import { db } from "./DB";
 import { DBContents, Rule, Transaction } from "./Types";
 
 // TODO: Move all useLiveQuery queries to this file
+// TODO: Validate all data at repository level
+// TODO: Return objects with error and status info
 
 export async function getMerchants(): Promise<string[]> {
   try {
@@ -48,6 +50,20 @@ export async function saveRule(rule: Rule): Promise<string> {
     return `Error saving rule: ${error}`;
   }
   return "Rule saved";
+}
+
+export async function saveRules(rules: Rule[]): Promise<string> {
+  try {
+    await db.rules.bulkAdd(rules);
+  } catch (error) {
+    if (error instanceof Dexie.BulkError) {
+      return `${rules.length - error.failures.length} rules saved, ${
+        error.failures.length
+      } skipped`;
+    }
+    return `Error saving rules: ${error}`;
+  }
+  return `${rules.length} rules saved`;
 }
 
 export async function deleteRule(id: number): Promise<void> {
@@ -110,16 +126,21 @@ export async function exportDB(): Promise<{
   message: string;
 }> {
   try {
+    const rules = await db.rules.toArray();
     const transactions = await db.transactions.toArray();
-    return { db: { transactions }, message: "Export successful" };
+    return { db: { rules, transactions }, message: "Export successful" };
   } catch (error) {
-    return { db: { transactions: [] }, message: `Error with export: ${error}` };
+    return {
+      db: { rules: [], transactions: [] },
+      message: `Error with export: ${error}`,
+    };
   }
 }
 
 export async function importDB(db: DBContents): Promise<string> {
   try {
     await saveTransactions(db.transactions);
+    await saveRules(db.rules);
   } catch (error) {
     return `Error with import: ${error}`;
   }

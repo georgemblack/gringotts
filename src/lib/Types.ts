@@ -161,5 +161,6 @@ export interface AppleCardSavingsRecord {
 }
 
 export interface DBContents {
+  rules: Rule[];
   transactions: Transaction[];
 }

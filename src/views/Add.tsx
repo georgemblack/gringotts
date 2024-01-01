@@ -8,13 +8,7 @@ import {
   getMerchants,
   saveTransaction,
 } from "../lib/Repository";
-import {
-  Account,
-  AccountNames,
-  Bool,
-  Category,
-  CategoryNames,
-} from "../lib/Types";
+import { Account, AccountNames, Bool, Category } from "../lib/Types";
 
 function Add() {
   const [merchants, setMerchants] = useState<string[]>([]);
