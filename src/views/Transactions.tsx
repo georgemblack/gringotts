@@ -1,27 +1,53 @@
 import { useLiveQuery } from "dexie-react-hooks";
+import { useEffect, useState } from "react";
 
-import { db } from "../lib/DB";
-import { deleteTransaction } from "../lib/Repository";
-import { AccountNames, Bool, Category, CategoryNames } from "../lib/Types";
-
-// TODO: Add button to delete transaction
-// TODO: Add filters for month/year
+import MonthField from "../components/MonthField";
+import YearField from "../components/YearField";
+import {
+  TransactionFilter,
+  deleteTransaction,
+  getTransactions,
+} from "../lib/Repository";
+import {
+  AccountNames,
+  Bool,
+  Category,
+  CategoryNames,
+  Month,
+  getMonthNumber as monthNumber,
+} from "../lib/Types";
 
 function Transactions() {
+  const [month, setMonth] = useState<Month | "Any">("Any");
+  const [year, setYear] = useState<number>(2023);
+
   const transactions =
-    useLiveQuery(() =>
-      db.transactions
-        .where({ reviewed: Bool.TRUE, skipped: Bool.FALSE })
-        .toArray()
-    ) || [];
+    useLiveQuery(() => {
+      let query: TransactionFilter = {
+        year,
+        skipped: Bool.FALSE,
+        reviewed: Bool.TRUE,
+      };
+
+      // Optional query params
+      if (month !== "Any") {
+        query = { ...query, month: monthNumber(month) };
+      }
+
+      return getTransactions(query);
+    }, [month, year]) || [];
 
   const handleDelete = async (id: number) => {
     await deleteTransaction(id);
   };
 
   return (
-    <div>
-      <table className="table w-full is-striped is-narrow">
+    <>
+      <div className="mt-4 flex gap-2 justify-end">
+        <MonthField value={month} onSelect={setMonth} />
+        <YearField value={year} onSelect={setYear} />
+      </div>
+      <table className="table w-full is-striped is-narrow mt-4">
         <thead>
           <tr>
             <th>Date</th>
@@ -58,7 +84,7 @@ function Transactions() {
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }
 

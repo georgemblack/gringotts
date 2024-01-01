@@ -1,7 +1,7 @@
 import Dexie from "dexie";
 
 import { db } from "./DB";
-import { DBContents, Rule, Transaction } from "./Types";
+import { Bool, DBContents, DBResult, Month, Rule, Transaction } from "./Types";
 
 // TODO: Move all useLiveQuery queries to this file
 // TODO: Validate all data at repository level
@@ -71,6 +71,25 @@ export async function deleteRule(id: number): Promise<void> {
     await db.rules.delete(id);
   } catch (error) {
     console.error(`Error deleting rule: ${error}`);
+  }
+}
+
+export interface TransactionFilter {
+  month?: number;
+  year?: number;
+  skipped?: Bool.TRUE | Bool.FALSE;
+  reviewed?: Bool.TRUE | Bool.FALSE;
+}
+
+export async function getTransactions(
+  filter: TransactionFilter
+): Promise<Transaction[]> {
+  try {
+    const result = await db.transactions.where(filter).toArray();
+    return result || [];
+  } catch (error) {
+    console.error(`Error getting transactions: ${error}`);
+    return [];
   }
 }
 

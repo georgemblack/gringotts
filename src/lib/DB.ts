@@ -11,7 +11,7 @@ export class DB extends Dexie {
     this.version(1).stores({
       rules: "++id, &merchant",
       transactions:
-        "++id, &key, [month+year], merchant, merchantCategory, category, account, skipped, reviewed, [skipped+reviewed]",
+        "++id, &key, month, year, merchant, merchantCategory, category, account, skipped, reviewed",
     });
   }
 }

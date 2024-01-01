@@ -95,6 +95,25 @@ export function getProperCategory(category: string): Category | null {
   return null;
 }
 
+export enum Month {
+  JANUARY = "January",
+  FEBRUARY = "February",
+  MARCH = "March",
+  APRIL = "April",
+  MAY = "May",
+  JUNE = "June",
+  JULY = "July",
+  AUGUST = "August",
+  SEPTEMBER = "September",
+  OCTOBER = "October",
+  NOVEMBER = "November",
+  DECEMBER = "December",
+}
+
+export function getMonthNumber(month: Month): number {
+  return Object.values(Month).indexOf(month) + 1;
+}
+
 export interface Transaction {
   id?: number;
   key: string;
@@ -158,6 +177,11 @@ export interface AppleCardSavingsRecord {
   Description: string;
   "Currency Code": string;
   Amount: string;
+}
+
+export interface DBResult {
+  success: boolean;
+  message: string;
 }
 
 export interface DBContents {
