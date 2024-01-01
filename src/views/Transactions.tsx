@@ -2,7 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import { db } from "../lib/DB";
 import { deleteTransaction } from "../lib/Repository";
-import { AccountNames, Bool } from "../lib/Types";
+import { AccountNames, Bool, Category, CategoryNames } from "../lib/Types";
 
 // TODO: Add button to delete transaction
 // TODO: Add filters for month/year
@@ -43,7 +43,7 @@ function Transactions() {
               <td>
                 {transaction.merchant} • {transaction.merchantCategory}
               </td>
-              <td>{transaction.category}</td>
+              <td>{CategoryNames[transaction.category as Category]}</td>
               <td>{AccountNames[transaction.account]}</td>
               <td>{transaction.notes}</td>
               <td>
