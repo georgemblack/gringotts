@@ -94,7 +94,8 @@ export function c1CreditRecordToTransaction(
   record: C1CreditRecord,
   account: Account
 ): Transaction {
-  const amount = record.Debit !== "" ? record.Debit : record.Credit;
+  const amount =
+    record.Debit !== "" ? Number(record.Debit) : Number(record.Credit);
   const credit = record.Debit !== "" ? Bool.FALSE : Bool.TRUE;
 
   return {
@@ -138,8 +139,8 @@ export function c1CheckingRecordToTransaction(
   // Remove negative sign from amount if it's not a credit
   const amount =
     credit === Bool.TRUE
-      ? record["Transaction Amount"]
-      : record["Transaction Amount"].substring(1);
+      ? Number(record["Transaction Amount"])
+      : Number(record["Transaction Amount"].substring(1));
 
   return {
     key: generateRecordId(record),
@@ -182,8 +183,8 @@ export function appleCardCreditRecordToTransaction(
   // Remove negative sign from amount if it's a credit
   const amount =
     credit === Bool.TRUE
-      ? record["Amount (USD)"].substring(1)
-      : record["Amount (USD)"];
+      ? Number(record["Amount (USD)"].substring(1))
+      : Number(record["Amount (USD)"]);
 
   return {
     key: generateRecordId(record),
@@ -226,7 +227,7 @@ export function appleCardSavingsRecordToTransaction(
     day: Number(record["Transaction Date"].split("/")[1]),
     month: Number(record["Transaction Date"].split("/")[0]),
     year: Number(record["Transaction Date"].split("/")[2]),
-    amount: record.Amount,
+    amount: Number(record.Amount),
     credit,
     merchant: "",
     merchantCategory: "",
@@ -281,7 +282,7 @@ export function normalizeTransactions(transactions: Transaction[]): {
     // Add newly created transaction to result
     result.push({
       ...duplicateTransactions[0],
-      amount: String(amount),
+      amount: amount,
       notes: "Merged duplicate transactions",
     });
   }

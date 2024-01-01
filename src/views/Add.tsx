@@ -41,7 +41,7 @@ function Add() {
       merchant,
       merchantCategory,
       category,
-      amount,
+      amount: Number(amount),
       credit: Bool.FALSE,
       account,
       notes,

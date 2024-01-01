@@ -101,7 +101,7 @@ export interface Transaction {
   day: number;
   month: number;
   year: number;
-  amount: string;
+  amount: number;
   credit: Bool.FALSE | Bool.TRUE;
   merchant: string;
   merchantCategory: string;
