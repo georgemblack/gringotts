@@ -247,3 +247,47 @@ export function appleCardSavingsRecordsToTransactions(
     appleCardSavingsRecordToTransaction(record, account)
   );
 }
+
+/*
+ * Normalize transactions.
+ *  1. If two transactions have the same key, we were charged twice. Combine to a single transaction.
+ *  2. If any transaction can be automatically reviewed, do it.
+ */
+export function normalizeTransactions(transactions: Transaction[]): {
+  transactions: Transaction[];
+  status: string;
+} {
+  let result = transactions.slice();
+
+  // Check for transactions with the same key
+  const keys = transactions.map((transaction) => transaction.key);
+  const duplicates = keys.filter((key, index) => keys.indexOf(key) !== index);
+
+  // Merge them into a single transaction
+  for (const duplicate of duplicates) {
+    const duplicateTransactions = transactions.filter(
+      (transaction) => transaction.key === duplicate
+    );
+
+    // Calculate merged amount
+    const amount = duplicateTransactions.reduce(
+      (sum, transaction) => sum + Number(transaction.amount),
+      0
+    );
+
+    // Remove existing transactions from result
+    result = result.filter((transaction) => transaction.key !== duplicate);
+
+    // Add newly created transaction to result
+    result.push({
+      ...duplicateTransactions[0],
+      amount: String(amount),
+      notes: "Merged duplicate transactions",
+    });
+  }
+
+  return {
+    transactions: result,
+    status: `Created ${duplicates.length} merged transactions`,
+  };
+}

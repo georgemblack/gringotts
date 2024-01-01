@@ -1,19 +1,23 @@
 import { useState } from "react";
 
-import { csvToTransactions } from "../lib/Process";
+import { csvToTransactions, normalizeTransactions } from "../lib/Process";
 import { saveTransactions } from "../lib/Repository";
 import { Account, AccountNames } from "../lib/Types";
 
 function Import() {
   const [csv, setCsv] = useState<string>("");
   const [account, setAccount] = useState<string>(Account.CAPITAL_ONE_SAVOR);
-  const [statusMessage, setStatusMessage] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
-  // TODO: Handule duplicate transactions by adding values together
+  // TODO: Refactor
   const handleSubmit = async () => {
+    let message = "";
+
     const transactions = csvToTransactions(csv, account as Account);
-    const message = await saveTransactions(transactions);
-    setStatusMessage(message);
+    const result = await normalizeTransactions(transactions);
+    message += `${result.status}; `;
+    message += await saveTransactions(result.transactions);
+    setStatus(message);
     setCsv("");
   };
 
@@ -43,7 +47,7 @@ function Import() {
           Submit
         </button>
       </div>
-      <div className="mt-2">{statusMessage && <p>{statusMessage}</p>}</div>
+      <div className="mt-2">{status && <p>{status}</p>}</div>
     </div>
   );
 }
