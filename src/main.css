@@ -14,6 +14,10 @@ header {
   padding: 0 1em;
 }
 
+body {
+  margin-bottom: 4em;
+}
+
 .page-standard-width {
   max-width: 56em;
   margin: 0 auto;

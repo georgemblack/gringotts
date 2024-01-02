@@ -12,6 +12,7 @@ import {
   TransactionSummaryItem,
   Transaction,
   getMonthNumber,
+  CategoryGroups,
 } from "./Types";
 
 // TODO: Move all useLiveQuery queries to this file

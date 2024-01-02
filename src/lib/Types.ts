@@ -10,7 +10,6 @@ export enum Account {
   APPLE_CARD = "APPLE_CARD",
   APPLE_SAVINGS = "APPLE_SAVINGS",
   CASH_APP = "CASH_APP",
-  VENMO = "VENMO",
 }
 
 export const AccountNames = {
@@ -20,7 +19,6 @@ export const AccountNames = {
   [Account.APPLE_CARD]: "Apple Card",
   [Account.APPLE_SAVINGS]: "Apple Savings",
   [Account.CASH_APP]: "Cash App",
-  [Account.VENMO]: "Venmo",
 };
 
 export enum Category {
@@ -83,6 +81,51 @@ export const CategoryNames = {
   [Category.PROJECT_FUND_INVESTMNET]: "Project Fund Investment",
   [Category.PRIVATE_FUND_INVESTMENT]: "Private Fund Investment",
   [Category.AUTO_LOANS_EXTRA]: "Auto Loans Extra",
+};
+
+export enum CategoryGroup {
+  INCOME = "INCOME",
+  ESSENTIAL = "ESSENTIAL",
+  ELECTIVE = "ELECTIVE",
+  INVESTMENT = "INVESTMENT",
+}
+
+export const CategoryGroupNames = {
+  [CategoryGroup.INCOME]: "Income",
+  [CategoryGroup.ESSENTIAL]: "Essential",
+  [CategoryGroup.ELECTIVE]: "Elective",
+  [CategoryGroup.INVESTMENT]: "Investment",
+};
+
+export const CategoryGroups = {
+  [Category.COMPENSATION]: CategoryGroup.INCOME,
+  [Category.BANKING_REWARDS]: CategoryGroup.INCOME,
+  [Category.INCOME_MISC]: CategoryGroup.INCOME,
+  [Category.HEALTH]: CategoryGroup.ESSENTIAL,
+  [Category.HOUSING]: CategoryGroup.ESSENTIAL,
+  [Category.EDUCATION]: CategoryGroup.ESSENTIAL,
+  [Category.GROCERIES]: CategoryGroup.ESSENTIAL,
+  [Category.SUPPLIES]: CategoryGroup.ESSENTIAL,
+  [Category.TRANSPORTATION]: CategoryGroup.ESSENTIAL,
+  [Category.UTILITIES]: CategoryGroup.ESSENTIAL,
+  [Category.AUTO_LOANS_MINIMUM]: CategoryGroup.ESSENTIAL,
+  [Category.INSURANCE]: CategoryGroup.ESSENTIAL,
+  [Category.ESSENTIAL_SERVICES]: CategoryGroup.ESSENTIAL,
+  [Category.ESSENTIAL_MISC]: CategoryGroup.ESSENTIAL,
+  [Category.DINING_ENTERTAINMENT]: CategoryGroup.ELECTIVE,
+  [Category.SHOPPING]: CategoryGroup.ELECTIVE,
+  [Category.TRIPS_TRAVEL]: CategoryGroup.ELECTIVE,
+  [Category.SUBSCRIPTIONS]: CategoryGroup.ELECTIVE,
+  [Category.HOBBIES]: CategoryGroup.ELECTIVE,
+  [Category.CHARITY]: CategoryGroup.ELECTIVE,
+  [Category.GIFTS]: CategoryGroup.ELECTIVE,
+  [Category.ELECTIVE_SERVICES]: CategoryGroup.ELECTIVE,
+  [Category.ELECTIVE_MISC]: CategoryGroup.ELECTIVE,
+  [Category.ELECTIVE_HIDDEN]: CategoryGroup.ELECTIVE,
+  [Category.GENERAL_FUND_INVESTMENT]: CategoryGroup.INVESTMENT,
+  [Category.PROJECT_FUND_INVESTMNET]: CategoryGroup.INVESTMENT,
+  [Category.PRIVATE_FUND_INVESTMENT]: CategoryGroup.INVESTMENT,
+  [Category.AUTO_LOANS_EXTRA]: CategoryGroup.INVESTMENT,
 };
 
 /**
