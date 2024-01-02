@@ -58,8 +58,8 @@ function Add() {
   };
 
   return (
-    <>
-      <form className="mt-4" onSubmit={handleSubmit}>
+    <main className="page-standard-width">
+      <form onSubmit={handleSubmit}>
         <div className="flex gap-2 mt-4">
           <input
             className="input"
@@ -126,7 +126,7 @@ function Add() {
         </div>
       </form>
       <div className="mt-2">{statusMessage && <p>{statusMessage}</p>}</div>
-    </>
+    </main>
   );
 }
 

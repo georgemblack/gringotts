@@ -14,16 +14,18 @@ import Transactions from "./views/Transactions";
 function App() {
   return (
     <BrowserRouter>
-      <nav className="flex gap-4">
-        <Link to="/">Import</Link>
-        <Link to="/add">Add</Link>
-        <Link to="/review">Review</Link>
-        <Link to="/transactions">Transactions</Link>
-        <Link to="/summary">Summary</Link>
-        <Link to="/rules">Rules</Link>
-        <Link to="/sync">Sync</Link>
-      </nav>
-      <div className="mt-4">
+      <header>
+        <nav className="flex gap-4 standard-width">
+          <Link to="/">Import</Link>
+          <Link to="/add">Add</Link>
+          <Link to="/review">Review</Link>
+          <Link to="/transactions">Transactions</Link>
+          <Link to="/summary">Summary</Link>
+          <Link to="/rules">Rules</Link>
+          <Link to="/sync">Sync</Link>
+        </nav>
+      </header>
+      <body>
         <Routes>
           <Route path="/" element={<Import />} />
           <Route path="/add" element={<Add />} />
@@ -33,7 +35,7 @@ function App() {
           <Route path="/rules" element={<Rules />} />
           <Route path="/sync" element={<Sync />} />
         </Routes>
-      </div>
+      </body>
     </BrowserRouter>
   );
 }

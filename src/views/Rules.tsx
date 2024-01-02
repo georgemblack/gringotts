@@ -12,7 +12,7 @@ function Rules() {
   };
 
   return (
-    <>
+    <main className="page-standard-width">
       <table className="table w-full mt-4 is-striped is-narrow">
         <thead>
           <tr>
@@ -42,7 +42,7 @@ function Rules() {
           ))}
         </tbody>
       </table>
-    </>
+    </main>
   );
 }
 

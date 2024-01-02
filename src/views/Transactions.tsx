@@ -43,8 +43,8 @@ function Transactions() {
   };
 
   return (
-    <>
-      <div className="mt-4 flex gap-2 justify-end">
+    <main className="page-full-width">
+      <div className="flex gap-2 justify-end">
         <MonthField value={month} onSelect={setMonth} />
         <YearField value={year} onSelect={setYear} />
       </div>
@@ -87,7 +87,7 @@ function Transactions() {
           ))}
         </tbody>
       </table>
-    </>
+    </main>
   );
 }
 

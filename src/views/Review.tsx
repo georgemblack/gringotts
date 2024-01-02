@@ -34,7 +34,7 @@ function Review() {
     ) || [];
 
   return (
-    <div>
+    <main className="page-standard-width">
       {transactions.length === 0 && <p>No transactions to review</p>}
       {transactions.map((transaction) => (
         <div className="mt-4" key={transaction.id}>
@@ -45,7 +45,7 @@ function Review() {
           />
         </div>
       ))}
-    </div>
+    </main>
   );
 }
 

@@ -22,7 +22,7 @@ function Import() {
   };
 
   return (
-    <div className="mt-2">
+    <main className="page-standard-width">
       <textarea
         value={csv}
         onChange={(e) => setCsv(e.target.value)}
@@ -48,7 +48,7 @@ function Import() {
         </button>
       </div>
       <div className="mt-2">{status && <p>{status}</p>}</div>
-    </div>
+    </main>
   );
 }
 

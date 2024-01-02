@@ -23,14 +23,12 @@ function Sync() {
   };
 
   return (
-    <>
-      <div className="mt-2">
-        <textarea
-          value={importData}
-          onChange={(e) => setImportData(e.target.value)}
-          className="textarea h-64"
-        />
-      </div>
+    <main className="page-standard-width">
+      <textarea
+        value={importData}
+        onChange={(e) => setImportData(e.target.value)}
+        className="textarea h-64"
+      />
       <div className="flex justify-between mt-4">
         <div>
           <a href={exportUrl}>Download</a>
@@ -45,7 +43,7 @@ function Sync() {
         </div>
       </div>
       <div className="mt-2">{statusMessage && <p>{statusMessage}</p>}</div>
-    </>
+    </main>
   );
 }
 

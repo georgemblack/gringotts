@@ -26,7 +26,7 @@ function Autosuggest({
             onChange(consolidated[0]);
         }}
       />
-      <div className="flex gap-1 mt-1 h-8">
+      <div className="flex gap-1 mt-1 h-8 overflow-hidden flex-nowrap">
         {consolidated.map((suggestion) => (
           <span
             key={suggestion}
