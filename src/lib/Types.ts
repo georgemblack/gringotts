@@ -18,7 +18,6 @@ export const AccountNames = {
   [Account.CAPITAL_ONE_CHECKING]: "Capital One Checking",
   [Account.APPLE_CARD]: "Apple Card",
   [Account.APPLE_SAVINGS]: "Apple Savings",
-  [Account.CASH_APP]: "Cash App",
 };
 
 export enum Category {
