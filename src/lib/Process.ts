@@ -146,7 +146,7 @@ export function c1CheckingRecordToTransaction(
     key: generateRecordId(record),
     day: Number(record["Transaction Date"].split("/")[1]),
     month: Number(record["Transaction Date"].split("/")[0]),
-    year: Number(record["Transaction Date"].split("/")[2]),
+    year: Number(`20${record["Transaction Date"].split("/")[2]}`),
     description: record["Transaction Description"],
     merchant: "",
     merchantCategory: "",
