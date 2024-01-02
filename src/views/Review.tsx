@@ -6,6 +6,8 @@ import { Bool } from "../lib/Types";
 
 // TODO: Add support for tagging
 // TODO: Add support for filtering by account
+// TODO: Add support for filtering by amount
+// TODO: Add card number to transaction (or identifying person)
 
 function Review() {
   const merchants =
