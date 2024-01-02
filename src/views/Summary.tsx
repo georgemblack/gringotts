@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import Currency from "../components/Currency";
 import { getSummary } from "../lib/Repository";
 import { CategoryNames, Month, TransactionSummary } from "../lib/Types";
 
@@ -26,7 +27,11 @@ function Summary() {
             <tr key={item.category}>
               <td>{CategoryNames[item.category]}</td>
               {item.values.map((value) => {
-                return <td>{value.total}</td>;
+                return (
+                  <td>
+                    <Currency amount={value.total} />
+                  </td>
+                );
               })}
             </tr>
           );

@@ -11,6 +11,7 @@ import {
 } from "../lib/Types";
 import Autosuggest from "./Autosuggest";
 import CategoryField from "./CategoryField";
+import Currency from "./Currency";
 
 function ReviewForm({
   transaction,
@@ -60,7 +61,7 @@ function ReviewForm({
               {transaction.month}/{transaction.day}/{transaction.year}
             </p>
             <p className={transaction.credit ? "mt-0 bg-green-300" : "mt-0"}>
-              ${transaction.amount}
+              <Currency amount={transaction.amount} />
             </p>
           </div>
           <div className="text-gray-400">

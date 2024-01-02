@@ -1,6 +1,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
+import Currency from "../components/Currency";
 import MonthField from "../components/MonthField";
 import YearField from "../components/YearField";
 import {
@@ -64,7 +65,9 @@ function Transactions() {
               <td>
                 {transaction.month}/{transaction.day}/{transaction.year}
               </td>
-              <td>${transaction.amount}</td>
+              <td>
+                <Currency amount={transaction.amount} />
+              </td>
               <td>
                 {transaction.merchant} • {transaction.merchantCategory}
               </td>
