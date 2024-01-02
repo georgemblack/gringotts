@@ -18,6 +18,8 @@ import {
   getMonthNumber as monthNumber,
 } from "../lib/Types";
 
+// TODO: Add ability to edit a transaction
+
 function Transactions() {
   const [month, setMonth] = useState<Month | "Any">("Any");
   const [year, setYear] = useState<number>(2023);

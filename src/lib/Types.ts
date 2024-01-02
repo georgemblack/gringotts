@@ -9,7 +9,6 @@ export enum Account {
   CAPITAL_ONE_CHECKING = "CAPITAL_ONE_CHECKING",
   APPLE_CARD = "APPLE_CARD",
   APPLE_SAVINGS = "APPLE_SAVINGS",
-  CASH_APP = "CASH_APP",
 }
 
 export const AccountNames = {
