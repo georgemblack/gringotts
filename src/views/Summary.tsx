@@ -46,6 +46,21 @@ function Summary() {
     return rows;
   };
 
+  const groupTotalRow = (group: Group) => {
+    const columns: JSX.Element[] = [];
+
+    Object.values(Month).forEach(month => {
+      const item = summary.items.find(item => item.month === month);
+      const value = item?.groups.find(g => g.group === group);
+      columns.push(<td><Currency amount={value?.total || 0} /></td>);
+    });
+
+    return <tr>
+      <td>Total</td>
+      {columns}
+    </tr>
+  };
+
   useEffect(() => {
     getSummary(year).then((result) => setSummary(result));
   }, [year]);
@@ -66,13 +81,16 @@ function Summary() {
         </thead>
         <tbody>
           {rows(Group.INCOME)}
+          {groupTotalRow(Group.INCOME)}
           <EmptyRow cols={13} />
-
           {rows(Group.ESSENTIAL)}
+          {groupTotalRow(Group.ESSENTIAL)}
           <EmptyRow cols={13} />
           {rows(Group.ELECTIVE)}
+          {groupTotalRow(Group.ELECTIVE)}
           <EmptyRow cols={13} />
           {rows(Group.INVESTMENT)}
+          {groupTotalRow(Group.INVESTMENT)}
         </tbody>
       </table>
     </main>
