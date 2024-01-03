@@ -11,7 +11,10 @@ import {
   Month,
   Summary,
   Category,
+  MonthSummary,
 } from "../lib/Types";
+
+// TODO: Refactor a large amount of duplicate logic on this page
 
 function Summary() {
   const [year, setYear] = useState<number>(2023);
@@ -64,6 +67,61 @@ function Summary() {
     </tr>
   };
 
+  const groupExpectedRow = (group: Group) => {
+    const columns: JSX.Element[] = [];
+
+    Object.values(Month).forEach(month => {
+      const item = summary.items.find(item => item.month === month);
+      const value = item?.groups.find(g => g.group === group);
+      columns.push(<td><Currency amount={value?.expected || 0} /></td>);
+    });
+
+    return <tr className="bg-gray-100">
+      <td>Expected</td>
+      {columns}
+    </tr>
+  }
+
+  const totalRows = () => {
+    const rows: JSX.Element[] = [];
+    const items: MonthSummary[] = [];
+
+    Object.values(Month).forEach(month => {
+      const item = summary.items.find(item => item.month === month);
+      if(item) items.push(item);
+    });
+
+    // Create a row with total income
+    let columns: JSX.Element[] = [];
+    items.forEach(item => {
+      columns.push(<td><Currency amount={item.totals.income} /></td>);
+    });
+    rows.push(<tr><td>Income</td>{columns}</tr>)
+
+    // Create a row with total spending
+    columns = [];
+    items.forEach(item => {
+      columns.push(<td><Currency amount={item.totals.spending} /></td>);
+    });
+    rows.push(<tr><td>Spending</td>{columns}</tr>)
+
+    // Create a row with take-home
+    columns = [];
+    items.forEach(item => {
+      columns.push(<td><Currency amount={item.totals.income - item.totals.spending} /></td>);
+    });
+    rows.push(<tr className="font-bold bg-emerald-300"><td>Take Home</td>{columns}</tr>)
+
+    // Create a row with expected take-home
+    columns = [];
+    items.forEach(item => {
+      columns.push(<td><Currency amount={item.totals.expected} /></td>);
+    });
+    rows.push(<tr className="bg-gray-100"><td>Expected</td>{columns}</tr>)
+
+    return rows;
+  }
+
   useEffect(() => {
     getSummary(year).then((result) => setSummary(result));
   }, [year]);
@@ -88,12 +146,16 @@ function Summary() {
           <EmptyRow cols={13} />
           {rows(Group.ESSENTIAL)}
           {groupTotalRow(Group.ESSENTIAL)}
+          {groupExpectedRow(Group.ESSENTIAL)}
           <EmptyRow cols={13} />
           {rows(Group.ELECTIVE)}
           {groupTotalRow(Group.ELECTIVE)}
+          {groupExpectedRow(Group.ELECTIVE)}
           <EmptyRow cols={13} />
           {rows(Group.INVESTMENT)}
           {groupTotalRow(Group.INVESTMENT)}
+          <EmptyRow cols={13} />
+          {totalRows()}
         </tbody>
       </table>
     </main>
