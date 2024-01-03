@@ -1,4 +1,4 @@
-import { Month, TransactionSummaryItem } from "../lib/Types";
+import { Month, MonthSummary } from "../lib/Types";
 import Currency from "./Currency";
 
 interface GroupTotal {
@@ -10,7 +10,7 @@ function GroupTotalRow({
   items,
   color,
 }: {
-  items: TransactionSummaryItem[];
+  items: MonthSummary[];
   color: "green" | "blue" | "orange" | "violet";
 }) {
   const totals: GroupTotal[] = [];

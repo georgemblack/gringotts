@@ -81,49 +81,49 @@ export const CategoryNames = {
   [Category.AUTO_LOANS_EXTRA]: "Auto Loans Extra",
 };
 
-export enum CategoryGroup {
+export enum Group {
   INCOME = "INCOME",
   ESSENTIAL = "ESSENTIAL",
   ELECTIVE = "ELECTIVE",
   INVESTMENT = "INVESTMENT",
 }
 
-export const CategoryGroupNames = {
-  [CategoryGroup.INCOME]: "Income",
-  [CategoryGroup.ESSENTIAL]: "Essential",
-  [CategoryGroup.ELECTIVE]: "Elective",
-  [CategoryGroup.INVESTMENT]: "Investment",
+export const GroupNames = {
+  [Group.INCOME]: "Income",
+  [Group.ESSENTIAL]: "Essential",
+  [Group.ELECTIVE]: "Elective",
+  [Group.INVESTMENT]: "Investment",
 };
 
-export const CategoryGroups = {
-  [Category.COMPENSATION]: CategoryGroup.INCOME,
-  [Category.BANKING_REWARDS]: CategoryGroup.INCOME,
-  [Category.INCOME_MISC]: CategoryGroup.INCOME,
-  [Category.HEALTH]: CategoryGroup.ESSENTIAL,
-  [Category.HOUSING]: CategoryGroup.ESSENTIAL,
-  [Category.EDUCATION]: CategoryGroup.ESSENTIAL,
-  [Category.GROCERIES]: CategoryGroup.ESSENTIAL,
-  [Category.SUPPLIES]: CategoryGroup.ESSENTIAL,
-  [Category.TRANSPORTATION]: CategoryGroup.ESSENTIAL,
-  [Category.UTILITIES]: CategoryGroup.ESSENTIAL,
-  [Category.AUTO_LOANS_MINIMUM]: CategoryGroup.ESSENTIAL,
-  [Category.INSURANCE]: CategoryGroup.ESSENTIAL,
-  [Category.ESSENTIAL_SERVICES]: CategoryGroup.ESSENTIAL,
-  [Category.ESSENTIAL_MISC]: CategoryGroup.ESSENTIAL,
-  [Category.DINING_ENTERTAINMENT]: CategoryGroup.ELECTIVE,
-  [Category.SHOPPING]: CategoryGroup.ELECTIVE,
-  [Category.TRIPS_TRAVEL]: CategoryGroup.ELECTIVE,
-  [Category.SUBSCRIPTIONS]: CategoryGroup.ELECTIVE,
-  [Category.HOBBIES]: CategoryGroup.ELECTIVE,
-  [Category.CHARITY]: CategoryGroup.ELECTIVE,
-  [Category.GIFTS]: CategoryGroup.ELECTIVE,
-  [Category.ELECTIVE_SERVICES]: CategoryGroup.ELECTIVE,
-  [Category.ELECTIVE_MISC]: CategoryGroup.ELECTIVE,
-  [Category.ELECTIVE_HIDDEN]: CategoryGroup.ELECTIVE,
-  [Category.GENERAL_FUND_INVESTMENT]: CategoryGroup.INVESTMENT,
-  [Category.PROJECT_FUND_INVESTMNET]: CategoryGroup.INVESTMENT,
-  [Category.PRIVATE_FUND_INVESTMENT]: CategoryGroup.INVESTMENT,
-  [Category.AUTO_LOANS_EXTRA]: CategoryGroup.INVESTMENT,
+export const Groups = {
+  [Category.COMPENSATION]: Group.INCOME,
+  [Category.BANKING_REWARDS]: Group.INCOME,
+  [Category.INCOME_MISC]: Group.INCOME,
+  [Category.HEALTH]: Group.ESSENTIAL,
+  [Category.HOUSING]: Group.ESSENTIAL,
+  [Category.EDUCATION]: Group.ESSENTIAL,
+  [Category.GROCERIES]: Group.ESSENTIAL,
+  [Category.SUPPLIES]: Group.ESSENTIAL,
+  [Category.TRANSPORTATION]: Group.ESSENTIAL,
+  [Category.UTILITIES]: Group.ESSENTIAL,
+  [Category.AUTO_LOANS_MINIMUM]: Group.ESSENTIAL,
+  [Category.INSURANCE]: Group.ESSENTIAL,
+  [Category.ESSENTIAL_SERVICES]: Group.ESSENTIAL,
+  [Category.ESSENTIAL_MISC]: Group.ESSENTIAL,
+  [Category.DINING_ENTERTAINMENT]: Group.ELECTIVE,
+  [Category.SHOPPING]: Group.ELECTIVE,
+  [Category.TRIPS_TRAVEL]: Group.ELECTIVE,
+  [Category.SUBSCRIPTIONS]: Group.ELECTIVE,
+  [Category.HOBBIES]: Group.ELECTIVE,
+  [Category.CHARITY]: Group.ELECTIVE,
+  [Category.GIFTS]: Group.ELECTIVE,
+  [Category.ELECTIVE_SERVICES]: Group.ELECTIVE,
+  [Category.ELECTIVE_MISC]: Group.ELECTIVE,
+  [Category.ELECTIVE_HIDDEN]: Group.ELECTIVE,
+  [Category.GENERAL_FUND_INVESTMENT]: Group.INVESTMENT,
+  [Category.PROJECT_FUND_INVESTMNET]: Group.INVESTMENT,
+  [Category.PRIVATE_FUND_INVESTMENT]: Group.INVESTMENT,
+  [Category.AUTO_LOANS_EXTRA]: Group.INVESTMENT,
 };
 
 /**
@@ -220,13 +220,15 @@ export interface AppleCardSavingsRecord {
   Amount: string;
 }
 
-export interface TransactionSummary {
-  items: TransactionSummaryItem[];
+export interface Summary {
+  items: MonthSummary[];
 }
 
-export interface TransactionSummaryItem {
-  category: Category;
-  values: { month: Month; total: number }[];
+export interface MonthSummary {
+  month: Month;
+  categories: { category: Category; total: number }[]; // Totals for each category
+  groups: { group: Group; total: number; expected: number }[]; // Totals for each category group
+  totals: { income: number; spending: number; expected: number }; // Totals for month (income, all spending, and expected take-home)
 }
 
 export interface DBResult {

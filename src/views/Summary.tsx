@@ -6,52 +6,44 @@ import GroupTotalRow from "../components/GroupTotalRow";
 import YearField from "../components/YearField";
 import { getSummary } from "../lib/Repository";
 import {
-  CategoryGroup,
-  CategoryGroups,
+  Group,
+  Groups,
   CategoryNames,
   Month,
-  TransactionSummary,
-  TransactionSummaryItem,
+  Summary,
+  MonthSummary,
+  Category,
 } from "../lib/Types";
 
 function Summary() {
   const [year, setYear] = useState<number>(2023);
-  const [summary, setSummary] = useState<TransactionSummary>({ items: [] });
+  const [summary, setSummary] = useState<Summary>({ items: [] });
 
   /**
-   * Generate sets for each category group, i.e. 'Income', 'Essential', etc.
+   * Generate a set of rows for a given group.
+   * Summary data is categorized by month. Each row requires data from each month.
    */
-  const incomeGroup = summary.items.filter(
-    (row) => CategoryGroups[row.category] === CategoryGroup.INCOME
-  );
-  const essentialGroup = summary.items.filter(
-    (row) => CategoryGroups[row.category] === CategoryGroup.ESSENTIAL
-  );
-  const electiveGroup = summary.items.filter(
-    (row) => CategoryGroups[row.category] === CategoryGroup.ELECTIVE
-  );
-  const investmentGroup = summary.items.filter(
-    (row) => CategoryGroups[row.category] === CategoryGroup.INVESTMENT
-  );
+  const rows = (group: Group) => {
+    const categories = Object.values(Category).filter(c => Groups[c] === group);
 
-  /**
-   * Generate rows for a given set of summary items.
-   */
-  const rows = (items: TransactionSummaryItem[]): JSX.Element[] => {
-    return items.map((item) => {
-      return (
-        <tr key={item.category}>
-          <td>{CategoryNames[item.category]}</td>
-          {item.values.map((value) => {
-            return (
-              <td>
-                <Currency amount={value.total} />
-              </td>
-            );
-          })}
-        </tr>
-      );
+    // For each category, create a row
+    const rows = categories.map((category) => {
+      const columns: JSX.Element[] = [];
+
+      // Add column cell for each month
+      Object.values(Month).forEach(month => {
+        const item = summary.items.find(item => item.month === month);
+        const value = item?.categories.find(c => c.category === category);
+        columns.push(<td><Currency amount={value?.total || 0} /></td>);
+      })
+
+      return <tr>
+        <td>{CategoryNames[category]}</td>
+        {columns}
+      </tr>
     });
+
+    return rows;
   };
 
   useEffect(() => {
@@ -73,25 +65,14 @@ function Summary() {
           </tr>
         </thead>
         <tbody>
-          {/* Income group */}
-          {rows(incomeGroup)}
-          <GroupTotalRow items={incomeGroup} color="green" />
+          {rows(Group.INCOME)}
           <EmptyRow cols={13} />
 
-          {/* Essential group */}
-          {rows(essentialGroup)}
-          <GroupTotalRow items={essentialGroup} color="blue" />
+          {rows(Group.ESSENTIAL)}
           <EmptyRow cols={13} />
-
-          {/* Elective group */}
-          {rows(electiveGroup)}
-          <GroupTotalRow items={electiveGroup} color="orange" />
+          {rows(Group.ELECTIVE)}
           <EmptyRow cols={13} />
-
-          {/* Investment group */}
-          {rows(investmentGroup)}
-          <GroupTotalRow items={investmentGroup} color="violet" />
-          <EmptyRow cols={13} />
+          {rows(Group.INVESTMENT)}
         </tbody>
       </table>
     </main>

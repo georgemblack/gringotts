@@ -5,14 +5,14 @@ import {
   Bool,
   Category,
   DBContents,
-  DBResult,
   Month,
   Rule,
-  TransactionSummary,
-  TransactionSummaryItem,
+  Summary,
+  MonthSummary,
   Transaction,
   getMonthNumber,
-  CategoryGroups,
+  Groups,
+  Group,
 } from "./Types";
 
 // TODO: Move all useLiveQuery queries to this file
@@ -152,31 +152,75 @@ export async function deleteTransaction(id: number): Promise<void> {
   }
 }
 
-export async function getSummary(year: number): Promise<TransactionSummary> {
-  const result: TransactionSummary = { items: [] };
+export async function getSummary(year: number): Promise<Summary> {
+  const result: Summary = { items: [] };
   const transactions = await getTransactions({ year });
 
-  for (const category of Object.values(Category)) {
-    const newItem: TransactionSummaryItem = { category, values: [] };
+  for (const month of Object.values(Month)) {
+    const newItem: MonthSummary = {
+      month,
+      categories: [],
+      groups: [],
+      totals: { income: 0, spending: 0, expected: 0 },
+    };
 
-    // Find all transactions for the given category
-    const transactionsForCategory = transactions.filter(
-      (t) => t.category === category
-    );
+    // Find all transactions for the given month
+    const transactionsForMonth = transactions.filter((t) => {
+      return t.month === getMonthNumber(month);
+    });
 
-    // Calculate total for each month
-    for (const month of Object.values(Month)) {
-      const total = transactionsForCategory
-        .filter((t) => t.month === getMonthNumber(month))
+    // Find total income and spending
+    const income = transactionsForMonth
+      .filter((t) => Groups[t.category as Category] === Group.INCOME)
+      .reduce((acc, t) => acc + t.amount, 0);
+
+    const spending = transactionsForMonth
+      .filter((t) =>
+        [Group.ESSENTIAL, Group.ELECTIVE].includes(
+          Groups[t.category as Category]
+        )
+      )
+      .reduce((acc, t) => acc + t.amount, 0);
+    newItem.totals = {
+      income,
+      spending,
+      expected: income * 0.2,
+    };
+
+    // Calculate total for each category
+    Object.values(Category).forEach((category) => {
+      const total = transactionsForMonth
+        .filter((t) => t.category === category)
         .reduce((acc, t) => acc + t.amount, 0);
-      newItem.values.push({ month, total });
-    }
+      newItem.categories.push({ category, total });
+    });
 
-    // Append new item to result
+    // Calculate total for each category group
+    Object.values(Groups).forEach((group) => {
+      const total = newItem.categories
+        .filter((c) => Groups[c.category] === group)
+        .reduce((acc, c) => acc + c.total, 0);
+      newItem.groups.push({
+        group,
+        total,
+        expected: expected(spending, group),
+      });
+    });
+
     result.items.push(newItem);
   }
 
   return result;
+}
+
+function expected(total: number, group: Group): number {
+  switch (group) {
+    case Group.ESSENTIAL:
+      return total * 0.5;
+    case Group.ELECTIVE:
+      return total * 0.3;
+  }
+  return 0;
 }
 
 export async function exportDB(): Promise<{
