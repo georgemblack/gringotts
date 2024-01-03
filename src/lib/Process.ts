@@ -16,9 +16,6 @@ import {
   validC1CheckingRecord,
 } from "./Validate";
 
-// TODO: Add support for Venmo CSV
-// TODO: Check for Apple Savings CSV
-
 /**
  * Generate a unique identifier for a raw transaction by:
  * 1. Sorting the keys of the raw transaction

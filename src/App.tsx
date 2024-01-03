@@ -8,7 +8,6 @@ import Summary from "./views/Summary";
 import Sync from "./views/Sync";
 import Transactions from "./views/Transactions";
 
-// TODO: Add page for summary view
 // TODO: Auto-review some transactions based on rules (i.e. Apple Cash deposits)
 // TODO: Add eslint
 // TODO: Add prettier rule to sort tailwind classes
