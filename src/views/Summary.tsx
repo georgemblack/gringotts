@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import Currency from "../components/Currency";
 import EmptyRow from "../components/EmptyRow";
-import GroupTotalRow from "../components/GroupTotalRow";
 import YearField from "../components/YearField";
 import { getSummary } from "../lib/Repository";
 import {
@@ -11,7 +10,6 @@ import {
   CategoryNames,
   Month,
   Summary,
-  MonthSummary,
   Category,
 } from "../lib/Types";
 
@@ -55,7 +53,12 @@ function Summary() {
       columns.push(<td><Currency amount={value?.total || 0} /></td>);
     });
 
-    return <tr>
+    let classes = "font-bold bg-green-100"
+    if(group === Group.ESSENTIAL) classes = "font-bold bg-pink-100";
+    if(group === Group.ELECTIVE) classes = "font-bold bg-orange-100";
+    if(group === Group.INVESTMENT) classes = "font-bold bg-blue-100";
+
+    return <tr className={classes}>
       <td>Total</td>
       {columns}
     </tr>
