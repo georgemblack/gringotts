@@ -203,7 +203,7 @@ export async function getSummary(year: number): Promise<Summary> {
       newItem.groups.push({
         group,
         total,
-        expected: expected(spending, group),
+        expected: expected(income, group),
       });
     });
 
