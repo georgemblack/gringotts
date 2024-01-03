@@ -22,7 +22,7 @@ import {
 
 function Transactions() {
   const [month, setMonth] = useState<Month | "Any">("Any");
-  const [year, setYear] = useState<number>(2023);
+  const [year, setYear] = useState<number>(2024);
 
   const transactions =
     useLiveQuery(() => {
