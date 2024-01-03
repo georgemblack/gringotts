@@ -3,6 +3,8 @@ import { useState } from "react";
 import { exportDB, importDB } from "../lib/Repository";
 import { DBContents } from "../lib/Types";
 
+// TODO: Add file name to export?
+
 function Sync() {
   const [exportUrl, setExportUrl] = useState<string>("");
   const [importData, setImportData] = useState<string>("");
