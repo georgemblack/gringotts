@@ -3,10 +3,9 @@ import { useState } from "react";
 import { exportDB, importDB } from "../lib/Repository";
 import { DBContents } from "../lib/Types";
 
-// TODO: Add file name to export?
-
 function Sync() {
   const [exportUrl, setExportUrl] = useState<string>("");
+  const [exportTimestamp, setExportTimestamp] = useState<string>("");
   const [importData, setImportData] = useState<string>("");
   const [statusMessage, setStatusMessage] = useState<string>("");
 
@@ -21,6 +20,7 @@ function Sync() {
     const result = await exportDB();
     const blob = new Blob([JSON.stringify(result.db)], { type: "text/json" });
     setExportUrl(URL.createObjectURL(blob));
+    setExportTimestamp(new Date().toISOString().replace(/[:.]/g, "-"));
     setStatusMessage(result.message);
   };
 
@@ -33,7 +33,13 @@ function Sync() {
       />
       <div className="flex justify-between mt-4">
         <div>
-          <a href={exportUrl}>Download</a>
+          <a
+            href={exportUrl}
+            download={`gringotts-export-${exportTimestamp}.json`}
+            className="button"
+          >
+            Download
+          </a>
         </div>
         <div className="flex gap-2">
           <button className="button" onClick={handleImport}>
