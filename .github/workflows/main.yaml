@@ -1,0 +1,17 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: TypeScript Check
+        uses: ./.github/actions/yarn-command
+        with:
+          command: type-check
