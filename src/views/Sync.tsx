@@ -22,7 +22,7 @@ function Sync() {
     setExportUrl(URL.createObjectURL(blob));
     setExportTimestamp(new Date().toISOString().replace(/[:.]/g, "-"));
     setStatusMessage(
-      `Exported ${result.rules} rules and ${result.transactions} transactions`
+      `Exported ${result.rules.length} rules and ${result.transactions.length} transactions`
     );
   };
 
