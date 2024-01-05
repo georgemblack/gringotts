@@ -15,7 +15,6 @@ import {
   Group,
 } from "./Types";
 
-// TODO: Move all useLiveQuery queries to this file
 // TODO: Validate all data at repository level
 // TODO: Return objects with error and status info
 
@@ -52,6 +51,15 @@ export async function getRule(merchant: string): Promise<Rule | undefined> {
     return rules[0];
   } catch (error) {
     return undefined;
+  }
+}
+
+export async function getRules(): Promise<Rule[]> {
+  try {
+    const rules = await db.rules.toArray();
+    return rules || [];
+  } catch (error) {
+    return [];
   }
 }
 

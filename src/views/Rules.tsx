@@ -1,11 +1,11 @@
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { db } from "../lib/DB";
-import { deleteRule } from "../lib/Repository";
+import { deleteRule, getRules } from "../lib/Repository";
 import { Category, CategoryNames } from "../lib/Types";
 
 function Rules() {
-  const rules = useLiveQuery(() => db.rules.toArray()) || [];
+  const rules = useLiveQuery(getRules) || [];
 
   const handleDelete = async (id: number) => {
     await deleteRule(id);

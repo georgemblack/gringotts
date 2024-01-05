@@ -3,6 +3,11 @@ import { useState } from "react";
 
 import ReviewForm from "../components/ReviewForm";
 import { db } from "../lib/DB";
+import {
+  getMerchantCategories,
+  getMerchants,
+  getTransactions,
+} from "../lib/Repository";
 import { Bool } from "../lib/Types";
 
 // TODO: Add card number to transaction (or identifying person)
@@ -10,28 +15,10 @@ import { Bool } from "../lib/Types";
 function Review() {
   const [amount, setAmount] = useState<string>("");
 
-  const merchants =
-    useLiveQuery(async () => {
-      const result = await db.transactions
-        .where("merchant")
-        .notEqual("")
-        .uniqueKeys();
-      return result.map((key) => String(key));
-    }) || [];
-
-  const merchantCategories =
-    useLiveQuery(async () => {
-      const result = await db.transactions
-        .where("merchantCategory")
-        .notEqual("")
-        .uniqueKeys();
-      return result.map((key) => String(key));
-    }) || [];
-
+  const merchants = useLiveQuery(getMerchants);
+  const merchantCategories = useLiveQuery(getMerchantCategories);
   const transactions =
-    useLiveQuery(() =>
-      db.transactions.where({ reviewed: Bool.FALSE }).toArray(),
-    ) || [];
+    useLiveQuery(() => getTransactions({ reviewed: false })) || [];
 
   const filtered = transactions.filter((transaction) => {
     if (amount === "") return true;
@@ -56,8 +43,8 @@ function Review() {
         <div className="mt-4" key={transaction.id}>
           <ReviewForm
             transaction={transaction}
-            merchants={merchants}
-            merchantCategories={merchantCategories}
+            merchants={merchants || []}
+            merchantCategories={merchantCategories || []}
           />
         </div>
       ))}
