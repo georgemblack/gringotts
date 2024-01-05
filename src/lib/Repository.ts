@@ -261,6 +261,16 @@ function expected(total: number, group: Group): number {
   return 0;
 }
 
+export async function importDB(db: DBContents): Promise<string> {
+  try {
+    await saveTransactions(db.transactions);
+    await saveRules(db.rules);
+  } catch (error) {
+    return `Error with import: ${error}`;
+  }
+  return "Import successful";
+}
+
 export async function exportDB(): Promise<{
   db: DBContents;
   message: string;
@@ -275,14 +285,4 @@ export async function exportDB(): Promise<{
       message: `Error with export: ${error}`,
     };
   }
-}
-
-export async function importDB(db: DBContents): Promise<string> {
-  try {
-    await saveTransactions(db.transactions);
-    await saveRules(db.rules);
-  } catch (error) {
-    return `Error with import: ${error}`;
-  }
-  return "Import successful";
 }

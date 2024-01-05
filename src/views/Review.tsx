@@ -8,8 +8,6 @@ import {
   getTransactions,
 } from "../lib/Repository";
 
-// TODO: Add card number to transaction (or identifying person)
-
 function Review() {
   const [amount, setAmount] = useState<string>("");
 
