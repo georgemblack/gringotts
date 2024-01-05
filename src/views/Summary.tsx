@@ -14,8 +14,6 @@ import {
   MonthSummary,
 } from "../lib/Types";
 
-// TODO: Refactor a large amount of duplicate logic on this page
-
 function Summary() {
   const [year, setYear] = useState<number>(2024);
   const [summary, setSummary] = useState<Summary>({ items: [] });

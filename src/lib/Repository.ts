@@ -86,19 +86,49 @@ export async function deleteRule(id: number): Promise<void> {
   }
 }
 
+/**
+ * All filters allowed by getTransactions.
+ */
 export interface TransactionFilter {
+  month?: number;
+  year?: number;
+  tag?: string;
+  skipped?: boolean;
+  reviewed?: boolean;
+}
+
+/**
+ * Filters internally used by the database.
+ */
+interface DBTransactionFilter {
   month?: number;
   year?: number;
   skipped?: Bool.TRUE | Bool.FALSE;
   reviewed?: Bool.TRUE | Bool.FALSE;
 }
 
+/**
+ * Fetches a list of transactions based on the given filters.
+ * Not all filters can be passed via query, so we perform in-memory filtering afterwards.
+ */
 export async function getTransactions(
   filter: TransactionFilter
 ): Promise<Transaction[]> {
+  const dbFilter: DBTransactionFilter = {};
+  if (filter.month !== undefined) dbFilter.month = filter.month;
+  if (filter.year !== undefined) dbFilter.year = filter.year;
+  if (filter.skipped !== undefined)
+    dbFilter.skipped = filter.skipped ? Bool.TRUE : Bool.FALSE;
+  if (filter.reviewed !== undefined)
+    dbFilter.reviewed = filter.reviewed ? Bool.TRUE : Bool.FALSE;
+
   try {
-    const result = await db.transactions.where(filter).toArray();
-    return result || [];
+    const result = await db.transactions.where(dbFilter).toArray();
+    const filtered = result.filter((t) => {
+      if (!filter.tag) return true;
+      return t.tags?.includes(filter.tag);
+    });
+    return filtered || [];
   } catch (error) {
     console.error(`Error getting transactions: ${error}`);
     return [];

@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import Currency from "../components/Currency";
 import MonthField from "../components/MonthField";
+import TagsField from "../components/TagsField";
 import YearField from "../components/YearField";
 import {
   TransactionFilter,
@@ -15,12 +16,13 @@ import {
   Category,
   CategoryNames,
   Month,
+  Tag,
+  TagNames,
   getMonthNumber as monthNumber,
 } from "../lib/Types";
 
-// TODO: Add ability to edit a transaction
-
 function Transactions() {
+  const [tag, setTag] = useState<Tag | "Any">("Any");
   const [month, setMonth] = useState<Month | "Any">("Any");
   const [year, setYear] = useState<number>(2024);
 
@@ -28,17 +30,20 @@ function Transactions() {
     useLiveQuery(() => {
       let query: TransactionFilter = {
         year,
-        skipped: Bool.FALSE,
-        reviewed: Bool.TRUE,
+        skipped: false,
+        reviewed: true,
       };
 
       // Optional query params
       if (month !== "Any") {
         query = { ...query, month: monthNumber(month) };
       }
+      if (tag !== "Any") {
+        query = { ...query, tag: tag };
+      }
 
       return getTransactions(query);
-    }, [month, year]) || [];
+    }, [month, year, tag]) || [];
 
   const handleDelete = async (id: number) => {
     await deleteTransaction(id);
@@ -47,6 +52,7 @@ function Transactions() {
   return (
     <main className="page-full-width">
       <div className="flex gap-2 justify-end">
+        <TagsField value={tag} onSelect={setTag} />
         <MonthField value={month} onSelect={setMonth} />
         <YearField value={year} onSelect={setYear} />
       </div>

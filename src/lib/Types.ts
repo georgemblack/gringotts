@@ -136,6 +136,18 @@ export function getProperCategory(category: string): Category | null {
   return null;
 }
 
+export enum Tag {
+  BIG = "BIG",
+  PICASSO = "PICASSO",
+  ICELAND = "ICELAND",
+}
+
+export const TagNames = {
+  [Tag.BIG]: "Big",
+  [Tag.PICASSO]: "Picasso",
+  [Tag.ICELAND]: "Iceland",
+};
+
 export enum Month {
   JANUARY = "January",
   FEBRUARY = "February",
@@ -169,6 +181,7 @@ export interface Transaction {
   account: Account;
   description: string;
   notes: string;
+  tags?: string[];
   skipped: Bool.FALSE | Bool.TRUE;
   reviewed: Bool.FALSE | Bool.TRUE;
 }

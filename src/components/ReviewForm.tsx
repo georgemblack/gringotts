@@ -2,16 +2,11 @@ import { useState } from "react";
 import * as React from "react";
 
 import { getRule, saveRule, updateTransaction } from "../lib/Repository";
-import {
-  AccountNames,
-  Bool,
-  Category,
-  CategoryNames,
-  Transaction,
-} from "../lib/Types";
+import { AccountNames, Bool, Category, Tag, Transaction } from "../lib/Types";
 import Autosuggest from "./Autosuggest";
 import CategoryField from "./CategoryField";
 import Currency from "./Currency";
+import SelectableTag from "./SelectableTag";
 
 function ReviewForm({
   transaction,
@@ -26,6 +21,7 @@ function ReviewForm({
   const [merchantCategory, setMerchantCategory] = useState<string>("");
   const [category, setCategory] = useState<Category | null>(null);
   const [notes, setNotes] = useState<string>(transaction.notes);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   const [ruleCreated, setRuleCreated] = useState<boolean>(false);
 
@@ -39,6 +35,7 @@ function ReviewForm({
       merchantCategory,
       category,
       notes,
+      tags,
       reviewed: Bool.TRUE,
     });
   };
@@ -110,38 +107,48 @@ function ReviewForm({
                 />
               </div>
             </div>
-            <div className="flex justify-between mt-4">
-              <div className="flex gap-2 items-center">
-                <button
-                  type="button"
-                  className="button is-disabled"
-                  onClick={async () => {
-                    if (
-                      merchant === "" ||
-                      merchantCategory === "" ||
-                      category === null
-                    )
-                      return;
-                    await saveRule({
-                      merchant,
-                      merchantCategory,
-                      category,
-                    });
-                    setRuleCreated(true);
-                  }}
-                  disabled={ruleCreated}
-                >
-                  Create Rule
-                </button>
-              </div>
-              <div className="flex justify-end gap-2">
-                <button type="button" className="button" onClick={handleSkip}>
-                  Skip
-                </button>
-                <button type="submit" className="button is-primary">
-                  Save
-                </button>
-              </div>
+            <div className="flex mt-2 gap-2">
+              {Object.values(Tag).map((tag) => {
+                return (
+                  <SelectableTag
+                    value={tag}
+                    selected={tags.includes(tag)}
+                    onChange={(selected) => {
+                      if (selected) setTags([...tags, tag]);
+                      else setTags(tags.filter((t) => t !== tag));
+                    }}
+                  />
+                );
+              })}
+            </div>
+            <div className="flex justify-end mt-4 gap-2">
+              <button
+                type="button"
+                className="button is-disabled"
+                onClick={async () => {
+                  if (
+                    merchant === "" ||
+                    merchantCategory === "" ||
+                    category === null
+                  )
+                    return;
+                  await saveRule({
+                    merchant,
+                    merchantCategory,
+                    category,
+                  });
+                  setRuleCreated(true);
+                }}
+                disabled={ruleCreated}
+              >
+                Create Rule
+              </button>
+              <button type="button" className="button" onClick={handleSkip}>
+                Skip
+              </button>
+              <button type="submit" className="button is-primary">
+                Save
+              </button>
             </div>
           </form>
         </div>
