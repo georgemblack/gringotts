@@ -1,18 +1,17 @@
 import { useState } from "react";
 
+import AccountSelect from "../components/AccountSelect";
 import { process } from "../lib/Process";
 import { saveTransactions } from "../lib/Repository";
-import { Account, AccountNames } from "../lib/Types";
-
-// TODO: Refactor account select
+import { Account } from "../lib/Types";
 
 function Import() {
   const [csv, setCsv] = useState<string>("");
-  const [account, setAccount] = useState<string>(Account.CAPITAL_ONE_SAVOR);
+  const [account, setAccount] = useState<Account>(Account.CAPITAL_ONE_SAVOR);
   const [status, setStatus] = useState<string>("");
 
   const handleSubmit = async () => {
-    const processResult = process(csv, account as Account);
+    const processResult = process(csv, account);
     const saveResult = await saveTransactions(processResult.transactions);
 
     setStatus(`${processResult.message}; ${saveResult.message}`);
@@ -27,20 +26,7 @@ function Import() {
         className="h-64 textarea"
       />
       <div className="flex justify-between mt-4">
-        <div className="select">
-          <select
-            onChange={(e) => {
-              setAccount(e.target.value);
-            }}
-            value={account}
-          >
-            {Object.keys(Account).map((key) => (
-              <option key={key} value={key}>
-                {AccountNames[key as Account]}
-              </option>
-            ))}
-          </select>
-        </div>
+        <AccountSelect value={account} onSelect={setAccount} />
         <button onClick={handleSubmit} className="button">
           Submit
         </button>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import AccountSelect from "../components/AccountSelect";
 import Autosuggest from "../components/Autosuggest";
 import CategoryField from "../components/CategoryField";
 import TagField from "../components/TagField";
@@ -9,7 +10,7 @@ import {
   getMerchants,
   saveTransaction,
 } from "../lib/Repository";
-import { Account, AccountNames, Bool, Category, Tag } from "../lib/Types";
+import { Account, Bool, Category, Tag } from "../lib/Types";
 
 function Add() {
   const [merchants, setMerchants] = useState<string[]>([]);
@@ -23,7 +24,9 @@ function Add() {
   const [category, setCategory] = useState<Category | null>(null);
   const [tag, setTag] = useState<Tag | null>(null);
   const [notes, setNotes] = useState<string>("");
-  const [account, setAccount] = useState(Account.CAPITAL_ONE_QUICKSILVER);
+  const [account, setAccount] = useState<Account>(
+    Account.CAPITAL_ONE_QUICKSILVER
+  );
 
   useEffect(() => {
     getMerchants().then(setMerchants);
@@ -116,20 +119,7 @@ function Add() {
           <div className="flex-1"></div>
         </div>
         <div className="flex justify-between mt-4">
-          <div className="select">
-            <select
-              onChange={(e) => {
-                setAccount(e.target.value as Account);
-              }}
-              value={account}
-            >
-              {Object.keys(Account).map((key) => (
-                <option key={key} value={key}>
-                  {AccountNames[key as Account]}
-                </option>
-              ))}
-            </select>
-          </div>
+          <AccountSelect value={account} onSelect={setAccount} />
           <button type="submit" className="button is-primary">
             Save
           </button>
