@@ -49,12 +49,12 @@ function Transactions() {
 
   return (
     <main className="page-full-width">
-      <div className="flex gap-2 justify-end">
+      <div className="flex justify-end gap-2">
         <TagFilter value={tag} onSelect={setTag} />
         <MonthFilter value={month} onSelect={setMonth} />
         <YearFilter value={year} onSelect={setYear} />
       </div>
-      <table className="table w-full is-striped is-narrow mt-4">
+      <table className="table w-full mt-4 is-striped is-narrow">
         <thead>
           <tr>
             <th>Date</th>

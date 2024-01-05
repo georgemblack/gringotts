@@ -26,11 +26,11 @@ function Autosuggest({
             onChange(consolidated[0]);
         }}
       />
-      <div className="flex gap-1 mt-1 h-8 overflow-hidden flex-nowrap">
+      <div className="flex h-8 gap-1 mt-1 overflow-hidden flex-nowrap">
         {consolidated.map((suggestion) => (
           <span
             key={suggestion}
-            className="tag cursor-pointer"
+            className="cursor-pointer tag"
             onClick={() => onChange(suggestion)}
           >
             {suggestion}

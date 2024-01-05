@@ -96,7 +96,7 @@ function Add() {
             />
           </div>
         </div>
-        <div className="mt-4 flex gap-2">
+        <div className="flex gap-2 mt-4">
           <div className="flex-1">
             <CategoryField value={category} onSelect={setCategory} />
           </div>
@@ -115,7 +115,7 @@ function Add() {
           </div>
           <div className="flex-1"></div>
         </div>
-        <div className="mt-4 flex justify-between">
+        <div className="flex justify-between mt-4">
           <div className="select">
             <select
               onChange={(e) => {

@@ -182,10 +182,10 @@ function Summary() {
 
   return (
     <main className="page-full-width">
-      <div className="flex gap-2 justify-end">
+      <div className="flex justify-end gap-2">
         <YearFilter value={year} onSelect={setYear} />
       </div>
-      <table className="table mt-4 w-full is-narrow">
+      <table className="table w-full mt-4 is-narrow">
         <thead>
           <tr>
             <th></th>

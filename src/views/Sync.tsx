@@ -29,7 +29,7 @@ function Sync() {
       <textarea
         value={importData}
         onChange={(e) => setImportData(e.target.value)}
-        className="textarea h-64"
+        className="h-64 textarea"
       />
       <div className="flex justify-between mt-4">
         <div>

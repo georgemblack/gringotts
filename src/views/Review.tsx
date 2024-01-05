@@ -40,7 +40,7 @@ function Review() {
 
   return (
     <main className="page-standard-width">
-      <div className="flex gap-1 items-center justify-end">
+      <div className="flex items-center justify-end gap-1">
         <span>💲</span>
         <div className="max-w-28">
           <input
