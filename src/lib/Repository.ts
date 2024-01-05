@@ -76,7 +76,7 @@ export async function saveRule(rule: Rule): Promise<DBResult> {
     return { success: false, message: `Error saving rule: ${error}` };
   }
 
-  return { success: true, message: "Rule saved" };
+  return { success: true, message: "Saved rule" };
 }
 
 export async function saveRules(rules: Rule[]): Promise<DBResult> {
@@ -102,7 +102,7 @@ export async function saveRules(rules: Rule[]): Promise<DBResult> {
     return { success: false, message: `Error saving rules: ${error}` };
   }
 
-  return { success: true, message: `${rules.length} rules saved` };
+  return { success: true, message: `Saved ${rules.length} rules` };
 }
 
 export async function deleteRule(id: number): Promise<void> {
@@ -178,7 +178,7 @@ export async function saveTransaction(
     return { success: false, message: `Error saving transaction: ${error}` };
   }
 
-  return { success: true, message: "Transaction saved" };
+  return { success: true, message: "Saved transaction" };
 }
 
 export async function saveTransactions(
@@ -208,7 +208,7 @@ export async function saveTransactions(
 
   return {
     success: true,
-    message: `${transactions.length} transactions saved`,
+    message: `Saved ${transactions.length} transactions`,
   };
 }
 
