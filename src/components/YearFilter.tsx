@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function YearField({
+function YearFilter({
   value,
   onSelect,
 }: {
@@ -31,4 +31,4 @@ function YearField({
   );
 }
 
-export default YearField;
+export default YearFilter;

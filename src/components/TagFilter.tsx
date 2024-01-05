@@ -1,16 +1,16 @@
-import * as React from "react";
+import { Tag, TagNames } from "../lib/Types";
 
-import { Month } from "../lib/Types";
+// TODO: Rename these components
 
-function MonthField({
+function TagFilter({
   value,
   onSelect,
 }: {
-  value: Month | "Any";
-  onSelect: (month: Month | "Any") => void;
+  value: Tag | "Any";
+  onSelect: (tag: Tag | "Any") => void;
 }) {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onSelect(event.target.value as Month | "Any");
+    onSelect(event.target.value as Tag | "Any");
   };
 
   const getOptions = () => {
@@ -23,17 +23,16 @@ function MonthField({
       </option>
     );
 
-    // Add option for each month
-    for (const [key, value] of Object.entries(Month)) {
+    // Add option for each tag
+    for (const [key, value] of Object.entries(Tag)) {
       result.push(
         <option key={key} value={value}>
-          {value}
+          {TagNames[value]}
         </option>
       );
     }
     return result;
   };
-
   return (
     <div className="select">
       <select value={value} onChange={handleChange}>
@@ -43,4 +42,4 @@ function MonthField({
   );
 }
 
-export default MonthField;
+export default TagFilter;

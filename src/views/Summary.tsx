@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Currency from "../components/Currency";
 import EmptyRow from "../components/EmptyRow";
-import YearField from "../components/YearField";
+import YearFilter from "../components/YearFilter";
 import { getSummary } from "../lib/Repository";
 import {
   Group,
@@ -127,7 +127,7 @@ function Summary() {
   return (
     <main className="page-full-width">
       <div className="flex gap-2 justify-end">
-        <YearField value={year} onSelect={setYear} />
+        <YearFilter value={year} onSelect={setYear} />
       </div>
       <table className="table mt-4 w-full is-narrow">
         <thead>

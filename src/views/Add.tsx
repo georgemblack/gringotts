@@ -10,6 +10,8 @@ import {
 } from "../lib/Repository";
 import { Account, AccountNames, Bool, Category } from "../lib/Types";
 
+// TODO: Add tags
+
 function Add() {
   const [merchants, setMerchants] = useState<string[]>([]);
   const [merchantCategories, setMerchantCategories] = useState<string[]>([]);

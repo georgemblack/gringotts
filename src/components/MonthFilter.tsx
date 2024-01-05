@@ -1,14 +1,16 @@
-import { Tag, TagNames } from "../lib/Types";
+import * as React from "react";
 
-function TagsField({
+import { Month } from "../lib/Types";
+
+function MonthFilter({
   value,
   onSelect,
 }: {
-  value: Tag | "Any";
-  onSelect: (tag: Tag | "Any") => void;
+  value: Month | "Any";
+  onSelect: (month: Month | "Any") => void;
 }) {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onSelect(event.target.value as Tag | "Any");
+    onSelect(event.target.value as Month | "Any");
   };
 
   const getOptions = () => {
@@ -21,16 +23,17 @@ function TagsField({
       </option>
     );
 
-    // Add option for each tag
-    for (const [key, value] of Object.entries(Tag)) {
+    // Add option for each month
+    for (const [key, value] of Object.entries(Month)) {
       result.push(
         <option key={key} value={value}>
-          {TagNames[value]}
+          {value}
         </option>
       );
     }
     return result;
   };
+
   return (
     <div className="select">
       <select value={value} onChange={handleChange}>
@@ -40,4 +43,4 @@ function TagsField({
   );
 }
 
-export default TagsField;
+export default MonthFilter;

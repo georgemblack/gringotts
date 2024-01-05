@@ -2,9 +2,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useState } from "react";
 
 import Currency from "../components/Currency";
-import MonthField from "../components/MonthField";
-import TagsField from "../components/TagsField";
-import YearField from "../components/YearField";
+import MonthFilter from "../components/MonthFilter";
+import TagFilter from "../components/TagFilter";
+import YearFilter from "../components/YearFilter";
 import {
   TransactionFilter,
   deleteTransaction,
@@ -50,9 +50,9 @@ function Transactions() {
   return (
     <main className="page-full-width">
       <div className="flex gap-2 justify-end">
-        <TagsField value={tag} onSelect={setTag} />
-        <MonthField value={month} onSelect={setMonth} />
-        <YearField value={year} onSelect={setYear} />
+        <TagFilter value={tag} onSelect={setTag} />
+        <MonthFilter value={month} onSelect={setMonth} />
+        <YearFilter value={year} onSelect={setYear} />
       </div>
       <table className="table w-full is-striped is-narrow mt-4">
         <thead>
