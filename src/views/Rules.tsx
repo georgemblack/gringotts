@@ -1,6 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks";
 
-import { db } from "../lib/DB";
 import { deleteRule, getRules } from "../lib/Repository";
 import { Category, CategoryNames } from "../lib/Types";
 

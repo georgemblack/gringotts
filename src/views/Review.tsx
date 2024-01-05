@@ -2,13 +2,11 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useState } from "react";
 
 import ReviewForm from "../components/ReviewForm";
-import { db } from "../lib/DB";
 import {
   getMerchantCategories,
   getMerchants,
   getTransactions,
 } from "../lib/Repository";
-import { Bool } from "../lib/Types";
 
 // TODO: Add card number to transaction (or identifying person)
 
