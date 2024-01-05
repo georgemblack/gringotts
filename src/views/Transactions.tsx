@@ -47,6 +47,12 @@ function Transactions() {
     await deleteTransaction(id);
   };
 
+  const sorted = transactions.sort((a, b) => {
+    if (a.month !== b.month) return a.month - b.month;
+    if (a.day !== b.day) return a.day - b.day;
+    return 0;
+  });
+
   return (
     <main className="page-full-width">
       <div className="flex justify-end gap-2">
@@ -66,7 +72,7 @@ function Transactions() {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction) => (
+          {sorted.map((transaction) => (
             <tr key={transaction.id}>
               <td>
                 {transaction.month}/{transaction.day}/{transaction.year}
