@@ -2,14 +2,7 @@ import { useState } from "react";
 import * as React from "react";
 
 import { getRule, saveRule, updateTransaction } from "../lib/Repository";
-import {
-  AccountNames,
-  Bool,
-  Category,
-  Tag,
-  TagNames,
-  Transaction,
-} from "../lib/Types";
+import { AccountNames, Bool, Category, Tag, Transaction } from "../lib/Types";
 import Autosuggest from "./Autosuggest";
 import CategoryField from "./CategoryField";
 import Currency from "./Currency";

@@ -1,7 +1,5 @@
 import { Tag, TagNames } from "../lib/Types";
 
-// TODO: Rename these components
-
 function TagFilter({
   value,
   onSelect,

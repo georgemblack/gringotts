@@ -8,10 +8,6 @@ import Summary from "./views/Summary";
 import Sync from "./views/Sync";
 import Transactions from "./views/Transactions";
 
-// TODO: Auto-review some transactions based on rules (i.e. Apple Cash deposits)
-// TODO: Add prettier rule to sort tailwind classes
-// TODO: Add standard GitHub Actions workflows
-
 function App() {
   return (
     <BrowserRouter>
