@@ -2,11 +2,19 @@ import { useState } from "react";
 import * as React from "react";
 
 import { getRule, saveRule, updateTransaction } from "../lib/Repository";
-import { AccountNames, Bool, Category, Tag, Transaction } from "../lib/Types";
+import {
+  AccountNames,
+  Bool,
+  Category,
+  Tag,
+  TagNames,
+  Transaction,
+} from "../lib/Types";
 import Autosuggest from "./Autosuggest";
 import CategoryField from "./CategoryField";
 import Currency from "./Currency";
 import SelectableTag from "./SelectableTag";
+import TagField from "./TagField";
 
 function ReviewForm({
   transaction,
@@ -21,7 +29,7 @@ function ReviewForm({
   const [merchantCategory, setMerchantCategory] = useState<string>("");
   const [category, setCategory] = useState<Category | null>(null);
   const [notes, setNotes] = useState<string>(transaction.notes);
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [tag, setTag] = useState<Tag | null>(null);
 
   const [ruleCreated, setRuleCreated] = useState<boolean>(false);
 
@@ -35,7 +43,7 @@ function ReviewForm({
       merchantCategory,
       category,
       notes,
-      tags,
+      tags: tag ? [tag] : [],
       reviewed: Bool.TRUE,
     });
   };
@@ -99,6 +107,11 @@ function ReviewForm({
                 <CategoryField value={category} onSelect={setCategory} />
               </div>
               <div className="flex-1">
+                <TagField value={tag} onSelect={setTag} />
+              </div>
+            </div>
+            <div className="mt-4 flex gap-2">
+              <div className="flex-1">
                 <input
                   className="input"
                   placeholder="Notes"
@@ -106,22 +119,9 @@ function ReviewForm({
                   onChange={(e) => setNotes(e.target.value)}
                 />
               </div>
+              <div className="flex-1"></div>
             </div>
-            <div className="flex mt-2 gap-2">
-              {Object.values(Tag).map((tag) => {
-                return (
-                  <SelectableTag
-                    value={tag}
-                    selected={tags.includes(tag)}
-                    onChange={(selected) => {
-                      if (selected) setTags([...tags, tag]);
-                      else setTags(tags.filter((t) => t !== tag));
-                    }}
-                  />
-                );
-              })}
-            </div>
-            <div className="flex justify-end mt-4 gap-2">
+            <div className="flex-1 mt-4 flex justify-end gap-2">
               <button
                 type="button"
                 className="button is-disabled"

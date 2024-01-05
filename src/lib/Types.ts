@@ -137,16 +137,24 @@ export function getProperCategory(category: string): Category | null {
 }
 
 export enum Tag {
-  BIG = "BIG",
   PICASSO = "PICASSO",
   ICELAND = "ICELAND",
 }
 
 export const TagNames = {
-  [Tag.BIG]: "Big",
   [Tag.PICASSO]: "Picasso",
   [Tag.ICELAND]: "Iceland",
 };
+
+/**
+ * Given a tag name (e.g. "Picasso"), return the proper tag (e.g. "PICASSO").
+ */
+export function getProperTag(tag: string): Tag | null {
+  for (const [key, value] of Object.entries(TagNames)) {
+    if (value === tag) return key as Tag;
+  }
+  return null;
+}
 
 export enum Month {
   JANUARY = "January",

@@ -12,12 +12,10 @@ import {
 } from "../lib/Repository";
 import {
   AccountNames,
-  Bool,
   Category,
   CategoryNames,
   Month,
   Tag,
-  TagNames,
   getMonthNumber as monthNumber,
 } from "../lib/Types";
 
