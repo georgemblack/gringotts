@@ -13,7 +13,6 @@ import {
 import Autosuggest from "./Autosuggest";
 import CategoryField from "./CategoryField";
 import Currency from "./Currency";
-import SelectableTag from "./SelectableTag";
 import TagField from "./TagField";
 
 function ReviewForm({

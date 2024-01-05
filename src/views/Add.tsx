@@ -3,14 +3,13 @@ import { v4 as uuidv4 } from "uuid";
 
 import Autosuggest from "../components/Autosuggest";
 import CategoryField from "../components/CategoryField";
+import TagField from "../components/TagField";
 import {
   getMerchantCategories,
   getMerchants,
   saveTransaction,
 } from "../lib/Repository";
-import { Account, AccountNames, Bool, Category } from "../lib/Types";
-
-// TODO: Add tags
+import { Account, AccountNames, Bool, Category, Tag } from "../lib/Types";
 
 function Add() {
   const [merchants, setMerchants] = useState<string[]>([]);
@@ -22,6 +21,7 @@ function Add() {
   const [merchant, setMerchant] = useState<string>("");
   const [merchantCategory, setMerchantCategory] = useState<string>("");
   const [category, setCategory] = useState<Category | null>(null);
+  const [tag, setTag] = useState<Tag | null>(null);
   const [notes, setNotes] = useState<string>("");
   const [account, setAccount] = useState(Account.CAPITAL_ONE_QUICKSILVER);
 
@@ -46,6 +46,7 @@ function Add() {
       amount: Number(amount),
       credit: Bool.FALSE,
       account,
+      tags: tag ? [tag] : [],
       notes,
       skipped: Bool.FALSE,
       reviewed: Bool.TRUE,
@@ -56,6 +57,7 @@ function Add() {
     setMerchant("");
     setMerchantCategory("");
     setCategory(null);
+    setTag(null);
     setNotes("");
   };
 
@@ -99,6 +101,11 @@ function Add() {
             <CategoryField value={category} onSelect={setCategory} />
           </div>
           <div className="flex-1">
+            <TagField value={tag} onSelect={setTag} />
+          </div>
+        </div>
+        <div className="flex gap-2 mt-4">
+          <div className="flex-1">
             <input
               className="input"
               placeholder="Notes"
@@ -106,6 +113,7 @@ function Add() {
               onChange={(e) => setNotes(e.target.value)}
             />
           </div>
+          <div className="flex-1"></div>
         </div>
         <div className="mt-4 flex justify-between">
           <div className="select">
