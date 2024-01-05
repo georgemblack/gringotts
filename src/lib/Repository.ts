@@ -17,9 +17,6 @@ import {
 } from "./Types";
 import { validRule, validTransaction } from "./Validate";
 
-// TODO: Validate all data at repository level
-// TODO: Return objects with error and status info
-
 export async function getMerchants(): Promise<string[]> {
   try {
     const result = await db.transactions

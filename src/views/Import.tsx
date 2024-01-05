@@ -1,8 +1,10 @@
 import { useState } from "react";
 
-import { process, normalizeTransactions } from "../lib/Process";
+import { process } from "../lib/Process";
 import { saveTransactions } from "../lib/Repository";
 import { Account, AccountNames } from "../lib/Types";
+
+// TODO: Refactor account select
 
 function Import() {
   const [csv, setCsv] = useState<string>("");
@@ -10,11 +12,10 @@ function Import() {
   const [status, setStatus] = useState<string>("");
 
   const handleSubmit = async () => {
-    const transactions = process(csv, account as Account);
-    const normalizeResult = await normalizeTransactions(transactions);
-    const saveResult = await saveTransactions(normalizeResult.transactions);
+    const processResult = process(csv, account as Account);
+    const saveResult = await saveTransactions(processResult.transactions);
 
-    setStatus(`${normalizeResult.message}; ${saveResult.message}`);
+    setStatus(`${processResult.message}; ${saveResult.message}`);
     setCsv("");
   };
 
