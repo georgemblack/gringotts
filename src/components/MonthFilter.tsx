@@ -20,7 +20,7 @@ function MonthFilter({
     result.push(
       <option key="Any" value="Any">
         Any
-      </option>
+      </option>,
     );
 
     // Add option for each month
@@ -28,7 +28,7 @@ function MonthFilter({
       result.push(
         <option key={key} value={value}>
           {value}
-        </option>
+        </option>,
       );
     }
     return result;

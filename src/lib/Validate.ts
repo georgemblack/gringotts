@@ -31,7 +31,7 @@ export function validC1CheckingRecord(record: C1CheckingRecord): boolean {
 }
 
 export function validAppleCardCreditRecord(
-  record: AppleCardCreditRecord
+  record: AppleCardCreditRecord,
 ): boolean {
   return (
     record["Transaction Date"] !== undefined &&
@@ -47,7 +47,7 @@ export function validAppleCardCreditRecord(
 }
 
 export function validAppleCardSavingsRecord(
-  record: AppleCardSavingsRecord
+  record: AppleCardSavingsRecord,
 ): boolean {
   return (
     record["Transaction Date"] !== undefined &&

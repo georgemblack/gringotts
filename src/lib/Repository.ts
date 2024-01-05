@@ -112,7 +112,7 @@ interface DBTransactionFilter {
  * Not all filters can be passed via query, so we perform in-memory filtering afterwards.
  */
 export async function getTransactions(
-  filter: TransactionFilter
+  filter: TransactionFilter,
 ): Promise<Transaction[]> {
   const dbFilter: DBTransactionFilter = {};
   if (filter.month !== undefined) dbFilter.month = filter.month;
@@ -136,7 +136,7 @@ export async function getTransactions(
 }
 
 export async function saveTransaction(
-  transaction: Transaction
+  transaction: Transaction,
 ): Promise<string> {
   try {
     await db.transactions.add(transaction);
@@ -147,7 +147,7 @@ export async function saveTransaction(
 }
 
 export async function saveTransactions(
-  transactions: Transaction[]
+  transactions: Transaction[],
 ): Promise<string> {
   try {
     await db.transactions.bulkAdd(transactions);
@@ -163,7 +163,7 @@ export async function saveTransactions(
 }
 
 export async function updateTransaction(
-  transaction: Transaction
+  transaction: Transaction,
 ): Promise<string> {
   try {
     if (!transaction.id) return `Error updating transaction: no id`;
@@ -207,8 +207,8 @@ export async function getSummary(year: number): Promise<Summary> {
     const spending = transactionsForMonth
       .filter((t) =>
         [Group.ESSENTIAL, Group.ELECTIVE].includes(
-          Groups[t.category as Category]
-        )
+          Groups[t.category as Category],
+        ),
       )
       .reduce((acc, t) => acc + t.amount, 0);
     newItem.totals = {

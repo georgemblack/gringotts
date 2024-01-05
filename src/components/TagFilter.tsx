@@ -20,7 +20,7 @@ function TagFilter({
     result.push(
       <option key="Any" value="Any">
         Any
-      </option>
+      </option>,
     );
 
     // Add option for each tag
@@ -28,7 +28,7 @@ function TagFilter({
       result.push(
         <option key={key} value={value}>
           {TagNames[value]}
-        </option>
+        </option>,
       );
     }
     return result;

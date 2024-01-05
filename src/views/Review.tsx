@@ -30,7 +30,7 @@ function Review() {
 
   const transactions =
     useLiveQuery(() =>
-      db.transactions.where({ reviewed: Bool.FALSE }).toArray()
+      db.transactions.where({ reviewed: Bool.FALSE }).toArray(),
     ) || [];
 
   const filtered = transactions.filter((transaction) => {

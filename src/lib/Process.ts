@@ -36,14 +36,14 @@ export function generateRecordId(record: any): string {
  */
 export function csvToTransactions(
   csv: string,
-  account: Account
+  account: Account,
 ): Transaction[] {
   let transactions: Transaction[] = [];
 
   // Parse Capital One credit CSV
   if (
     [Account.CAPITAL_ONE_SAVOR, Account.CAPITAL_ONE_QUICKSILVER].includes(
-      account as Account
+      account as Account,
     )
   ) {
     const result = parse<C1CreditRecord>(csv.trim(), { header: true });
@@ -57,7 +57,7 @@ export function csvToTransactions(
     const filtered = result.data.filter(validC1CheckingRecord);
     transactions = c1CheckingRecordsToTransactions(
       filtered,
-      account as Account
+      account as Account,
     );
   }
 
@@ -67,7 +67,7 @@ export function csvToTransactions(
     const filtered = result.data.filter(validAppleCardCreditRecord);
     transactions = appleCardCreditRecordsToTransactions(
       filtered,
-      account as Account
+      account as Account,
     );
   }
 
@@ -77,7 +77,7 @@ export function csvToTransactions(
     const filtered = result.data.filter(validAppleCardSavingsRecord);
     transactions = appleCardSavingsRecordsToTransactions(
       filtered,
-      account as Account
+      account as Account,
     );
   }
 
@@ -89,7 +89,7 @@ export function csvToTransactions(
  */
 export function c1CreditRecordToTransaction(
   record: C1CreditRecord,
-  account: Account
+  account: Account,
 ): Transaction {
   const amount =
     record.Debit !== "" ? Number(record.Debit) : Number(record.Credit);
@@ -115,7 +115,7 @@ export function c1CreditRecordToTransaction(
 
 export function c1CreditRecordsToTransactions(
   records: C1CreditRecord[],
-  account: Account
+  account: Account,
 ): Transaction[] {
   return records.map((record) => c1CreditRecordToTransaction(record, account));
 }
@@ -125,7 +125,7 @@ export function c1CreditRecordsToTransactions(
  */
 export function c1CheckingRecordToTransaction(
   record: C1CheckingRecord,
-  account: Account
+  account: Account,
 ): Transaction {
   // If amount is positive, it's a credit
   const credit =
@@ -159,10 +159,10 @@ export function c1CheckingRecordToTransaction(
 
 export function c1CheckingRecordsToTransactions(
   records: C1CheckingRecord[],
-  account: Account
+  account: Account,
 ): Transaction[] {
   return records.map((record) =>
-    c1CheckingRecordToTransaction(record, account)
+    c1CheckingRecordToTransaction(record, account),
   );
 }
 
@@ -171,7 +171,7 @@ export function c1CheckingRecordsToTransactions(
  */
 export function appleCardCreditRecordToTransaction(
   record: AppleCardCreditRecord,
-  account: Account
+  account: Account,
 ): Transaction {
   // If amount is negative, it's a credit
   const credit =
@@ -203,10 +203,10 @@ export function appleCardCreditRecordToTransaction(
 
 export function appleCardCreditRecordsToTransactions(
   records: AppleCardCreditRecord[],
-  account: Account
+  account: Account,
 ): Transaction[] {
   return records.map((record) =>
-    appleCardCreditRecordToTransaction(record, account)
+    appleCardCreditRecordToTransaction(record, account),
   );
 }
 
@@ -215,7 +215,7 @@ export function appleCardCreditRecordsToTransactions(
  */
 export function appleCardSavingsRecordToTransaction(
   record: AppleCardSavingsRecord,
-  account: Account
+  account: Account,
 ): Transaction {
   const credit = record["Activity Type"] === "Credit" ? Bool.TRUE : Bool.FALSE;
 
@@ -239,10 +239,10 @@ export function appleCardSavingsRecordToTransaction(
 
 export function appleCardSavingsRecordsToTransactions(
   records: AppleCardSavingsRecord[],
-  account: Account
+  account: Account,
 ): Transaction[] {
   return records.map((record) =>
-    appleCardSavingsRecordToTransaction(record, account)
+    appleCardSavingsRecordToTransaction(record, account),
   );
 }
 
@@ -264,13 +264,13 @@ export function normalizeTransactions(transactions: Transaction[]): {
   // Merge them into a single transaction
   for (const duplicate of duplicates) {
     const duplicateTransactions = transactions.filter(
-      (transaction) => transaction.key === duplicate
+      (transaction) => transaction.key === duplicate,
     );
 
     // Calculate merged amount
     const amount = duplicateTransactions.reduce(
       (sum, transaction) => sum + Number(transaction.amount),
-      0
+      0,
     );
 
     // Remove existing transactions from result
