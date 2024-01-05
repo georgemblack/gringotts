@@ -34,7 +34,7 @@ function Add() {
     event.preventDefault();
     if (merchant === "" || merchantCategory === "" || category === null) return;
 
-    const message = await saveTransaction({
+    const result = await saveTransaction({
       key: uuidv4(),
       day: Number(date.split("/")[1]),
       month: Number(date.split("/")[0]),
@@ -51,7 +51,7 @@ function Add() {
       skipped: Bool.FALSE,
       reviewed: Bool.TRUE,
     });
-    setStatusMessage(message);
+    setStatusMessage(result.message);
     setAmount("");
     setDate("");
     setMerchant("");

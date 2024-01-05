@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { csvToTransactions, normalizeTransactions } from "../lib/Process";
+import { process, normalizeTransactions } from "../lib/Process";
 import { saveTransactions } from "../lib/Repository";
 import { Account, AccountNames } from "../lib/Types";
 
@@ -9,15 +9,12 @@ function Import() {
   const [account, setAccount] = useState<string>(Account.CAPITAL_ONE_SAVOR);
   const [status, setStatus] = useState<string>("");
 
-  // TODO: Refactor
   const handleSubmit = async () => {
-    let message = "";
+    const transactions = process(csv, account as Account);
+    const normalizeResult = await normalizeTransactions(transactions);
+    const saveResult = await saveTransactions(normalizeResult.transactions);
 
-    const transactions = csvToTransactions(csv, account as Account);
-    const result = await normalizeTransactions(transactions);
-    message += `${result.status}; `;
-    message += await saveTransactions(result.transactions);
-    setStatus(message);
+    setStatus(`${normalizeResult.message}; ${saveResult.message}`);
     setCsv("");
   };
 

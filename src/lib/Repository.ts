@@ -13,7 +13,9 @@ import {
   getMonthNumber,
   Groups,
   Group,
+  DBResult,
 } from "./Types";
+import { validRule, validTransaction } from "./Validate";
 
 // TODO: Validate all data at repository level
 // TODO: Return objects with error and status info
@@ -63,27 +65,47 @@ export async function getRules(): Promise<Rule[]> {
   }
 }
 
-export async function saveRule(rule: Rule): Promise<string> {
+export async function saveRule(rule: Rule): Promise<DBResult> {
+  if (!validRule(rule)) {
+    return {
+      success: false,
+      message: `Error saving rule: invalid rule`,
+    };
+  }
+
   try {
     await db.rules.add(rule);
   } catch (error) {
-    return `Error saving rule: ${error}`;
+    return { success: false, message: `Error saving rule: ${error}` };
   }
-  return "Rule saved";
+
+  return { success: true, message: "Rule saved" };
 }
 
-export async function saveRules(rules: Rule[]): Promise<string> {
+export async function saveRules(rules: Rule[]): Promise<DBResult> {
+  const invalid = rules.filter((r) => !validRule(r));
+  if (invalid.length > 0) {
+    return {
+      success: false,
+      message: `Error saving rules: ${invalid.length} rules are not valid`,
+    };
+  }
+
   try {
     await db.rules.bulkAdd(rules);
   } catch (error) {
     if (error instanceof Dexie.BulkError) {
-      return `${rules.length - error.failures.length} rules saved, ${
-        error.failures.length
-      } skipped`;
+      return {
+        success: false,
+        message: `Encountered ${
+          error.failures.length
+        } errors when saving rules: ${error.failures.join("; ")}`,
+      };
     }
-    return `Error saving rules: ${error}`;
+    return { success: false, message: `Error saving rules: ${error}` };
   }
-  return `${rules.length} rules saved`;
+
+  return { success: true, message: `${rules.length} rules saved` };
 }
 
 export async function deleteRule(id: number): Promise<void> {
@@ -120,7 +142,7 @@ interface DBTransactionFilter {
  * Not all filters can be passed via query, so we perform in-memory filtering afterwards.
  */
 export async function getTransactions(
-  filter: TransactionFilter,
+  filter: TransactionFilter
 ): Promise<Transaction[]> {
   const dbFilter: DBTransactionFilter = {};
   if (filter.month !== undefined) dbFilter.month = filter.month;
@@ -144,42 +166,78 @@ export async function getTransactions(
 }
 
 export async function saveTransaction(
-  transaction: Transaction,
-): Promise<string> {
+  transaction: Transaction
+): Promise<DBResult> {
+  if (!validTransaction(transaction)) {
+    return {
+      success: false,
+      message: `Error saving transaction: invalid transaction`,
+    };
+  }
+
   try {
     await db.transactions.add(transaction);
   } catch (error) {
-    return `Error saving transaction: ${error}`;
+    return { success: false, message: `Error saving transaction: ${error}` };
   }
-  return "Transaction saved";
+
+  return { success: true, message: "Transaction saved" };
 }
 
 export async function saveTransactions(
-  transactions: Transaction[],
-): Promise<string> {
+  transactions: Transaction[]
+): Promise<DBResult> {
+  const invalid = transactions.filter((t) => !validTransaction(t));
+  if (invalid.length > 0) {
+    return {
+      success: false,
+      message: `Error saving transactions: ${invalid.length} transactions are not valid`,
+    };
+  }
+
   try {
     await db.transactions.bulkAdd(transactions);
   } catch (error) {
     if (error instanceof Dexie.BulkError) {
-      return `${
-        transactions.length - error.failures.length
-      } transactions saved, ${error.failures.length} skipped`;
+      return {
+        success: false,
+        message: `Encountered ${
+          error.failures.length
+        } errors when saving transactions: ${error.failures.join("; ")}`,
+      };
     }
-    return `Error saving transactions: ${error}`;
+    return { success: false, message: `Error saving transactions: ${error}` };
   }
-  return `${transactions.length} transactions saved`;
+
+  return {
+    success: true,
+    message: `${transactions.length} transactions saved`,
+  };
 }
 
 export async function updateTransaction(
-  transaction: Transaction,
-): Promise<string> {
+  transaction: Transaction
+): Promise<DBResult> {
+  if (!transaction.id) {
+    return {
+      success: false,
+      message: `Error updating transaction: no id`,
+    };
+  }
+  if (!validTransaction(transaction)) {
+    return {
+      success: false,
+      message: `Error updating transaction: invalid transaction`,
+    };
+  }
+
   try {
-    if (!transaction.id) return `Error updating transaction: no id`;
     await db.transactions.update(transaction.id, transaction);
   } catch (error) {
-    return `Error updating transaction: ${error}`;
+    return { success: false, message: `Error updating transaction: ${error}` };
   }
-  return `Transaction updated`;
+
+  return { success: true, message: "Transaction updated" };
 }
 
 export async function deleteTransaction(id: number): Promise<void> {
@@ -215,8 +273,8 @@ export async function getSummary(year: number): Promise<Summary> {
     const spending = transactionsForMonth
       .filter((t) =>
         [Group.ESSENTIAL, Group.ELECTIVE].includes(
-          Groups[t.category as Category],
-        ),
+          Groups[t.category as Category]
+        )
       )
       .reduce((acc, t) => acc + t.amount, 0);
     newItem.totals = {
@@ -261,28 +319,24 @@ function expected(total: number, group: Group): number {
   return 0;
 }
 
-export async function importDB(db: DBContents): Promise<string> {
-  try {
-    await saveTransactions(db.transactions);
-    await saveRules(db.rules);
-  } catch (error) {
-    return `Error with import: ${error}`;
-  }
-  return "Import successful";
+export async function importDB(db: DBContents): Promise<DBResult> {
+  const transactionResults = await saveTransactions(db.transactions);
+  const ruleResults = await saveRules(db.rules);
+  return {
+    success: transactionResults.success && ruleResults.success,
+    message: `${transactionResults.message}; ${ruleResults.message}`,
+  };
 }
 
-export async function exportDB(): Promise<{
-  db: DBContents;
-  message: string;
-}> {
+export async function exportDB(): Promise<DBContents> {
   try {
     const rules = await db.rules.toArray();
     const transactions = await db.transactions.toArray();
-    return { db: { rules, transactions }, message: "Export successful" };
+    return { rules, transactions };
   } catch (error) {
     return {
-      db: { rules: [], transactions: [] },
-      message: `Error with export: ${error}`,
+      rules: [],
+      transactions: [],
     };
   }
 }

@@ -24,7 +24,7 @@ function Summary() {
    */
   const rows = (group: Group) => {
     const categories = Object.values(Category).filter(
-      (c) => Groups[c] === group,
+      (c) => Groups[c] === group
     );
 
     // For each category, create a row
@@ -38,7 +38,7 @@ function Summary() {
         columns.push(
           <td>
             <Currency amount={value?.total || 0} />
-          </td>,
+          </td>
         );
       });
 
@@ -62,7 +62,7 @@ function Summary() {
       columns.push(
         <td>
           <Currency amount={value?.total || 0} />
-        </td>,
+        </td>
       );
     });
 
@@ -88,7 +88,7 @@ function Summary() {
       columns.push(
         <td>
           <Currency amount={value?.expected || 0} />
-        </td>,
+        </td>
       );
     });
 
@@ -115,14 +115,14 @@ function Summary() {
       columns.push(
         <td>
           <Currency amount={item.totals.income} />
-        </td>,
+        </td>
       );
     });
     rows.push(
       <tr>
         <td>Income</td>
         {columns}
-      </tr>,
+      </tr>
     );
 
     // Create a row with total spending
@@ -131,14 +131,14 @@ function Summary() {
       columns.push(
         <td>
           <Currency amount={item.totals.spending} />
-        </td>,
+        </td>
       );
     });
     rows.push(
       <tr>
         <td>Spending</td>
         {columns}
-      </tr>,
+      </tr>
     );
 
     // Create a row with take-home
@@ -147,14 +147,14 @@ function Summary() {
       columns.push(
         <td>
           <Currency amount={item.totals.income - item.totals.spending} />
-        </td>,
+        </td>
       );
     });
     rows.push(
       <tr className="font-bold bg-emerald-300">
         <td>Take Home</td>
         {columns}
-      </tr>,
+      </tr>
     );
 
     // Create a row with expected take-home
@@ -163,14 +163,14 @@ function Summary() {
       columns.push(
         <td>
           <Currency amount={item.totals.expected} />
-        </td>,
+        </td>
       );
     });
     rows.push(
       <tr className="bg-gray-100">
         <td>Expected</td>
         {columns}
-      </tr>,
+      </tr>
     );
 
     return rows;

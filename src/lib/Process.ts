@@ -22,7 +22,7 @@ import {
  * 2. Concatenating the values of the sorted keys
  * 3. Removing all whitespace
  */
-export function generateRecordId(record: any): string {
+function generateRecordId(record: any): string {
   let id = "";
   const keys = Object.keys(record);
   keys.sort();
@@ -32,56 +32,68 @@ export function generateRecordId(record: any): string {
 }
 
 /**
- * Convert raw CSV input to a list of transactions.
+ * Process is the main ingestion point for CSV imports.
+ * It validates the contents of the CSV, and converts it to a standardized list of transactions.
  */
-export function csvToTransactions(
+export function process(
   csv: string,
-  account: Account,
-): Transaction[] {
+  account: Account
+): { transactions: Transaction[]; message: string } {
   let transactions: Transaction[] = [];
+  let message = "";
+
+  csv = csv.trim();
 
   // Parse Capital One credit CSV
   if (
     [Account.CAPITAL_ONE_SAVOR, Account.CAPITAL_ONE_QUICKSILVER].includes(
-      account as Account,
+      account
     )
   ) {
-    const result = parse<C1CreditRecord>(csv.trim(), { header: true });
-    const filtered = result.data.filter(valid1CreditRecord);
-    transactions = c1CreditRecordsToTransactions(filtered, account as Account);
+    const result = parse<C1CreditRecord>(csv, { header: true });
+    const valid = result.data.filter(valid1CreditRecord);
+    message += `Discovered ${valid.length} records, ignoring ${
+      result.data.length - valid.length
+    }`;
+    transactions = c1CreditRecordsToTransactions(valid, account);
   }
 
   // Parse Capital One checking CSV
   if (account === Account.CAPITAL_ONE_CHECKING) {
-    const result = parse<C1CheckingRecord>(csv.trim(), { header: true });
-    const filtered = result.data.filter(validC1CheckingRecord);
-    transactions = c1CheckingRecordsToTransactions(
-      filtered,
-      account as Account,
-    );
+    const result = parse<C1CheckingRecord>(csv, { header: true });
+    const valid = result.data.filter(validC1CheckingRecord);
+    message += `Discovered ${valid.length} records, ignoring ${
+      result.data.length - valid.length
+    }`;
+    transactions = c1CheckingRecordsToTransactions(valid, account);
   }
 
   // Parse Apple Card credit card CSV
   if (account === Account.APPLE_CARD) {
-    const result = parse<AppleCardCreditRecord>(csv.trim(), { header: true });
-    const filtered = result.data.filter(validAppleCardCreditRecord);
-    transactions = appleCardCreditRecordsToTransactions(
-      filtered,
-      account as Account,
-    );
+    const result = parse<AppleCardCreditRecord>(csv, { header: true });
+    const valid = result.data.filter(validAppleCardCreditRecord);
+    message += `Discovered ${valid.length} records, ignoring ${
+      result.data.length - valid.length
+    }`;
+    transactions = appleCardCreditRecordsToTransactions(valid, account);
   }
 
   // Parse Apple Card Savings CSV
   if (account === Account.APPLE_SAVINGS) {
-    const result = parse<AppleCardSavingsRecord>(csv.trim(), { header: true });
-    const filtered = result.data.filter(validAppleCardSavingsRecord);
-    transactions = appleCardSavingsRecordsToTransactions(
-      filtered,
-      account as Account,
-    );
+    const result = parse<AppleCardSavingsRecord>(csv, { header: true });
+    const valid = result.data.filter(validAppleCardSavingsRecord);
+    message += `Discovered ${valid.length} records, ignoring ${
+      result.data.length - valid.length
+    }`;
+    transactions = appleCardSavingsRecordsToTransactions(valid, account);
   }
 
-  return transactions;
+  // Normalize transactions
+  const result = normalizeTransactions(transactions);
+  transactions = result.transactions;
+  message += `; ${result.message}`;
+
+  return { transactions, message };
 }
 
 /**
@@ -89,7 +101,7 @@ export function csvToTransactions(
  */
 export function c1CreditRecordToTransaction(
   record: C1CreditRecord,
-  account: Account,
+  account: Account
 ): Transaction {
   const amount =
     record.Debit !== "" ? Number(record.Debit) : Number(record.Credit);
@@ -115,7 +127,7 @@ export function c1CreditRecordToTransaction(
 
 export function c1CreditRecordsToTransactions(
   records: C1CreditRecord[],
-  account: Account,
+  account: Account
 ): Transaction[] {
   return records.map((record) => c1CreditRecordToTransaction(record, account));
 }
@@ -125,7 +137,7 @@ export function c1CreditRecordsToTransactions(
  */
 export function c1CheckingRecordToTransaction(
   record: C1CheckingRecord,
-  account: Account,
+  account: Account
 ): Transaction {
   // If amount is positive, it's a credit
   const credit =
@@ -159,10 +171,10 @@ export function c1CheckingRecordToTransaction(
 
 export function c1CheckingRecordsToTransactions(
   records: C1CheckingRecord[],
-  account: Account,
+  account: Account
 ): Transaction[] {
   return records.map((record) =>
-    c1CheckingRecordToTransaction(record, account),
+    c1CheckingRecordToTransaction(record, account)
   );
 }
 
@@ -171,7 +183,7 @@ export function c1CheckingRecordsToTransactions(
  */
 export function appleCardCreditRecordToTransaction(
   record: AppleCardCreditRecord,
-  account: Account,
+  account: Account
 ): Transaction {
   // If amount is negative, it's a credit
   const credit =
@@ -203,10 +215,10 @@ export function appleCardCreditRecordToTransaction(
 
 export function appleCardCreditRecordsToTransactions(
   records: AppleCardCreditRecord[],
-  account: Account,
+  account: Account
 ): Transaction[] {
   return records.map((record) =>
-    appleCardCreditRecordToTransaction(record, account),
+    appleCardCreditRecordToTransaction(record, account)
   );
 }
 
@@ -215,7 +227,7 @@ export function appleCardCreditRecordsToTransactions(
  */
 export function appleCardSavingsRecordToTransaction(
   record: AppleCardSavingsRecord,
-  account: Account,
+  account: Account
 ): Transaction {
   const credit = record["Activity Type"] === "Credit" ? Bool.TRUE : Bool.FALSE;
 
@@ -239,21 +251,20 @@ export function appleCardSavingsRecordToTransaction(
 
 export function appleCardSavingsRecordsToTransactions(
   records: AppleCardSavingsRecord[],
-  account: Account,
+  account: Account
 ): Transaction[] {
   return records.map((record) =>
-    appleCardSavingsRecordToTransaction(record, account),
+    appleCardSavingsRecordToTransaction(record, account)
   );
 }
 
 /*
  * Normalize transactions.
- *  1. If two transactions have the same key, we were charged twice. Combine to a single transaction.
- *  2. If any transaction can be automatically reviewed, do it.
+ * If two transactions have the same key, we were charged twice. Combine to a single transaction.
  */
 export function normalizeTransactions(transactions: Transaction[]): {
   transactions: Transaction[];
-  status: string;
+  message: string;
 } {
   let result = transactions.slice();
 
@@ -264,13 +275,13 @@ export function normalizeTransactions(transactions: Transaction[]): {
   // Merge them into a single transaction
   for (const duplicate of duplicates) {
     const duplicateTransactions = transactions.filter(
-      (transaction) => transaction.key === duplicate,
+      (transaction) => transaction.key === duplicate
     );
 
     // Calculate merged amount
     const amount = duplicateTransactions.reduce(
       (sum, transaction) => sum + Number(transaction.amount),
-      0,
+      0
     );
 
     // Remove existing transactions from result
@@ -286,6 +297,6 @@ export function normalizeTransactions(transactions: Transaction[]): {
 
   return {
     transactions: result,
-    status: `Created ${duplicates.length} merged transactions`,
+    message: `Created ${duplicates.length} merged transactions`,
   };
 }

@@ -12,16 +12,18 @@ function Sync() {
   const handleImport = async () => {
     if (importData === "") return;
     const data: DBContents = JSON.parse(importData);
-    const message = await importDB(data);
-    setStatusMessage(message);
+    const result = await importDB(data);
+    setStatusMessage(result.message);
   };
 
   const handleExport = async () => {
     const result = await exportDB();
-    const blob = new Blob([JSON.stringify(result.db)], { type: "text/json" });
+    const blob = new Blob([JSON.stringify(result)], { type: "text/json" });
     setExportUrl(URL.createObjectURL(blob));
     setExportTimestamp(new Date().toISOString().replace(/[:.]/g, "-"));
-    setStatusMessage(result.message);
+    setStatusMessage(
+      `Exported ${result.rules} rules and ${result.transactions} transactions`
+    );
   };
 
   return (

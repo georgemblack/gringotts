@@ -202,13 +202,13 @@ export interface Rule {
 }
 
 export interface C1CreditRecord {
-  "Card No.": string;
-  Category: string;
-  Credit: string;
-  Debit: string;
-  Description: string;
-  "Posted Date": string;
   "Transaction Date": string;
+  "Posted Date": string;
+  "Card No.": string;
+  Description: string;
+  Category: string;
+  Debit: string;
+  Credit: string;
 }
 
 export interface C1CheckingRecord {
